@@ -1,0 +1,51 @@
+/* src/styles/global.css */
+
+:root {
+  --doki-red: #FF2D2D;
+  --doki-black: #000000;
+}
+
+/* Custom Red Border for Product Cards */
+.doki-border {
+  border: 3px solid var(--doki-red);
+  padding: 0.25rem;
+}
+
+/* The 'Order Now' button shadow style */
+.doki-button-shadow {
+  box-shadow: 5px 5px 0px 0px var(--doki-black);
+  transition: transform 0.1s ease;
+}
+
+.doki-button-shadow:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px 0px var(--doki-black);
+}
+
+/* Title bars with slanted text */
+.doki-header-bar {
+  background-color: var(--doki-red);
+  color: white;
+  padding: 0.25rem 1rem;
+  font-size: 10px;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Custom Input Style for Forms */
+.doki-input {
+  width: 100%;
+  border: 1px solid var(--doki-black);
+  padding: 0.5rem;
+  font-size: 10px;
+  text-transform: uppercase;
+  text-align: center;
+  outline: none;
+}
+
+.doki-input:focus {
+  border-color: var(--doki-red);
+  box-shadow: 0 0 0 2px rgba(255, 45, 45, 0.2);
+}
