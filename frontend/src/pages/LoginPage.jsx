@@ -1,198 +1,179 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../styles/LoginPage.css';
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ username: '', password: '' });
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState({ username: '', password: '' });
+  const [touched, setTouched] = useState({ username: false, password: false });
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+
+  const validate = () => {
+    const newErrors = { username: '', password: '' };
+    if (!username.trim()) newErrors.username = 'Username is required.';
+    if (!password.trim()) newErrors.password = 'Password is required.';
+    setErrors(newErrors);
+    return !newErrors.username && !newErrors.password;
+  };
+
+  const handleBlur = (field) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    const newErrors = { ...errors };
+    if (field === 'username' && !username.trim()) newErrors.username = 'Username is required.';
+    if (field === 'username' && username.trim()) newErrors.username = '';
+    if (field === 'password' && !password.trim()) newErrors.password = 'Password is required.';
+    if (field === 'password' && password.trim()) newErrors.password = '';
+    setErrors(newErrors);
+  };
+
+  const handleLogin = () => {
+    setTouched({ username: true, password: true });
+    if (validate()) {
+      navigate('/home');
+    }
+  };
+
+  // ── Eye icon SVG ───────────────────────────────────────
+  const EyeIcon = () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+      <circle cx="12" cy="12" r="3"/>
+    </svg>
+  );
+
+  const EyeOffIcon = () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+      <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+      <line x1="1" y1="1" x2="23" y2="23"/>
+    </svg>
+  );
 
   return (
-    <div
-      className="min-h-screen flex flex-col bg-white overflow-hidden"
-      style={{ fontFamily: "'Nunito', sans-serif" }}
-    >
+    <div className="login-page">
+
       {/* Top red bar */}
-      <div className="h-1.5 w-full bg-doki-red" />
+      <div className="login-topbar" />
 
       {/* Header */}
-      <div className="bg-doki-black px-6 py-6 flex items-center gap-3">
+      <div className="login-header">
         <img
           src="/src/assets/logo (3).png"
           alt="Doki Logo"
-          className="h-10 w-auto brightness-200 object-contain"
+          className="login-header-logo"
         />
         <div>
-          <p
-            style={{
-              fontFamily: "'Bebas Neue', 'Impact', sans-serif",
-              fontSize: '18px',
-              letterSpacing: '0.12em',
-              color: 'white',
-              lineHeight: 1,
-            }}
-          >
-            CUSTOMER LOGIN
-          </p>
-          <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em' }}>
-            Welcome back to Doki Café
-          </p>
+          <p className="login-header-title">CUSTOMER LOGIN</p>
+          <p className="login-header-sub">Welcome back to Doki Café</p>
         </div>
       </div>
 
       {/* Page body */}
-      <div className="flex-grow flex flex-col items-center justify-center px-5 py-8 bg-[#f7f7f7]">
+      <div className="login-body">
 
-        {/* ── FORM CARD CONTAINER ── */}
-        <div className="w-full max-w-sm bg-white rounded-2xl px-6 py-8"
-          style={{ boxShadow: '0 2px 16px rgba(0,0,0,0.07)', border: '1px solid #f0f0f0' }}
-        >
+        {/* Form Card */}
+        <div className="login-card">
+
           {/* Avatar */}
-          <div className="flex justify-center mb-7">
-            <div className="w-20 h-20 rounded-full bg-[#f5f5f5] border-2 border-doki-red flex items-center justify-center">
-              <svg className="w-10 h-10 text-[#ccc]" fill="currentColor" viewBox="0 0 24 24">
+          <div className="login-avatar-wrap">
+            <div className="login-avatar">
+              <svg className="login-avatar-icon" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
               </svg>
             </div>
           </div>
 
           {/* Inputs */}
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-1.5">
-              <label
-                style={{
-                  fontFamily: "'Bebas Neue', 'Impact', sans-serif",
-                  fontSize: '10px',
-                  letterSpacing: '0.2em',
-                  color: '#999',
-                }}
-              >
-                USER NAME
-              </label>
+          <div className="login-fields">
+
+            {/* Username */}
+            <div className="login-field">
+              <label className="login-label">USER NAME</label>
               <input
                 type="text"
                 name="username"
-                value={form.username}
-                onChange={handleChange}
-                style={{
-                  fontFamily: "'Nunito', sans-serif",
-                  fontSize: '13px',
-                  border: '1.5px solid #e5e5e5',
-                  borderRadius: '10px',
-                  padding: '12px 16px',
-                  outline: 'none',
-                  transition: 'border-color 0.2s',
-                  width: '100%',
-                  background: '#fafafa',
+                value={username}
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                  if (touched.username && e.target.value.trim()) {
+                    setErrors((prev) => ({ ...prev, username: '' }));
+                  }
                 }}
-                onFocus={e => (e.target.style.borderColor = '#FF2D2D')}
-                onBlur={e => (e.target.style.borderColor = '#e5e5e5')}
+                onBlur={() => handleBlur('username')}
                 placeholder="Enter your username"
+                className={`login-input ${errors.username ? 'login-input--error' : ''}`}
               />
+              {errors.username && (
+                <span className="login-error-msg">{errors.username}</span>
+              )}
             </div>
 
-            <div className="flex flex-col gap-1.5">
-              <label
-                style={{
-                  fontFamily: "'Bebas Neue', 'Impact', sans-serif",
-                  fontSize: '10px',
-                  letterSpacing: '0.2em',
-                  color: '#999',
-                }}
-              >
-                PASSWORD
-              </label>
-              <input
-                type="password"
-                name="password"
-                value={form.password}
-                onChange={handleChange}
-                style={{
-                  fontFamily: "'Nunito', sans-serif",
-                  fontSize: '13px',
-                  border: '1.5px solid #e5e5e5',
-                  borderRadius: '10px',
-                  padding: '12px 16px',
-                  outline: 'none',
-                  transition: 'border-color 0.2s',
-                  width: '100%',
-                  background: '#fafafa',
-                }}
-                onFocus={e => (e.target.style.borderColor = '#FF2D2D')}
-                onBlur={e => (e.target.style.borderColor = '#e5e5e5')}
-                placeholder="Enter your password"
-              />
+            {/* Password */}
+            <div className="login-field">
+              <label className="login-label">PASSWORD</label>
+              <div className="login-input-wrap">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    if (touched.password && e.target.value.trim()) {
+                      setErrors((prev) => ({ ...prev, password: '' }));
+                    }
+                  }}
+                  onBlur={() => handleBlur('password')}
+                  placeholder="Enter your password"
+                  className={`login-input login-input--password ${errors.password ? 'login-input--error' : ''}`}
+                />
+                <button
+                  type="button"
+                  className="login-eye-btn"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                </button>
+              </div>
+              {errors.password && (
+                <span className="login-error-msg">{errors.password}</span>
+              )}
             </div>
           </div>
 
           {/* Divider */}
-          <div className="h-px w-full bg-[#f0f0f0] my-6" />
+          <div className="login-divider" />
 
           {/* Buttons */}
-          <div className="flex gap-3">
-            <button
-              onClick={() => navigate('/home')}
-              style={{
-                fontFamily: "'Bebas Neue', 'Impact', sans-serif",
-                fontSize: '14px',
-                letterSpacing: '0.18em',
-                flex: 2,
-                borderRadius: '50px',
-                padding: '14px',
-                background: '#FF2D2D',
-                color: 'white',
-                border: 'none',
-                cursor: 'pointer',
-                transition: 'background 0.2s',
-              }}
-              onMouseEnter={e => (e.target.style.background = '#cc2020')}
-              onMouseLeave={e => (e.target.style.background = '#FF2D2D')}
-            >
+          <div className="login-actions">
+            <button className="login-btn-primary" onClick={handleLogin}>
               LOG IN
             </button>
-            <button
-              onClick={() => navigate('/')}
-              style={{
-                fontFamily: "'Bebas Neue', 'Impact', sans-serif",
-                fontSize: '14px',
-                letterSpacing: '0.18em',
-                flex: 1,
-                borderRadius: '50px',
-                padding: '14px',
-                background: 'transparent',
-                color: '#999',
-                border: '1.5px solid #e5e5e5',
-                cursor: 'pointer',
-              }}
-            >
+            <button className="login-btn-cancel" onClick={() => navigate('/')}>
               CANCEL
             </button>
           </div>
 
           {/* Register link */}
-          <p
-            style={{
-              fontFamily: "'Nunito', sans-serif",
-              fontSize: '12px',
-              color: '#bbb',
-              textAlign: 'center',
-              marginTop: '20px',
-            }}
-          >
+          <p className="login-register-text">
             Don't have an account?{' '}
-            <span
-              onClick={() => navigate('/register')}
-              style={{ color: '#FF2D2D', fontWeight: 700, cursor: 'pointer' }}
-            >
+            <span className="login-register-link" onClick={() => navigate('/register')}>
               Sign Up
             </span>
           </p>
+
         </div>
-        {/* ── END FORM CARD ── */}
+        {/* End Form Card */}
 
       </div>
 
-      <div className="h-1.5 w-full bg-doki-red" />
+      {/* Bottom red bar */}
+      <div className="login-topbar" />
     </div>
   );
 };

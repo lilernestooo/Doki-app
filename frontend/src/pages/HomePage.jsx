@@ -1,259 +1,181 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import '../styles/HomePage.css';
 
+// ── SVG Icons ──────────────────────────────────────────────────────────────
+const CoffeeIcon = ({ size = 28, color = '#cccccc' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+    stroke={color} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+    <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+    <line x1="6" y1="1" x2="6" y2="4"/>
+    <line x1="10" y1="1" x2="10" y2="4"/>
+    <line x1="14" y1="1" x2="14" y2="4"/>
+  </svg>
+);
+
+const LeafIcon = ({ size = 28, color = '#cccccc' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+    stroke={color} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M17 8C8 10 5.9 16.17 3.82 19.09c-.68.96.69 1.89 1.54 1.09C7.5 18 10 17 13 17c5 0 8-4 8-8V3l-4 5z"/>
+  </svg>
+);
+
+const StarIcon = ({ size = 28, color = '#cccccc' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+    stroke={color} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+  </svg>
+);
+
+const SakuraIcon = ({ size = 20, color = '#E32636' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+    stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="2"/>
+    <path d="M12 2a3 3 0 0 1 3 3v2a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/>
+    <path d="M12 22a3 3 0 0 1-3-3v-2a3 3 0 0 1 6 0v2a3 3 0 0 1-3 3z"/>
+    <path d="M2 12a3 3 0 0 1 3-3h2a3 3 0 0 1 0 6H5a3 3 0 0 1-3-3z"/>
+    <path d="M22 12a3 3 0 0 1-3 3h-2a3 3 0 0 1 0-6h2a3 3 0 0 1 3 3z"/>
+  </svg>
+);
+
+const SparkleIcon = ({ size = 20, color = '#E32636' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+    stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/>
+    <path d="M5 17l.75 2.25L8 20l-2.25.75L5 23l-.75-2.25L2 20l2.25-.75L5 17z"/>
+    <path d="M19 3l.75 2.25L22 6l-2.25.75L19 9l-.75-2.25L16 6l2.25-.75L19 3z"/>
+  </svg>
+);
+
+const LanternIcon = ({ size = 20, color = '#E32636' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+    stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 2v2"/>
+    <path d="M12 20v2"/>
+    <rect x="6" y="6" width="12" height="12" rx="6"/>
+    <line x1="8" y1="12" x2="16" y2="12"/>
+    <line x1="12" y1="8" x2="12" y2="16"/>
+  </svg>
+);
+
+// ── Data ───────────────────────────────────────────────────────────────────
 const bestSellers = [
-  { id: 1, name: 'Coffee Jelly', price: 150, tag: 'FAN FAVORITE', emoji: '🍮' },
-  { id: 2, name: 'Dirty Matcha', price: 145, tag: 'TRENDING', emoji: '🍵' },
-  { id: 3, name: 'Café Latte', price: 130, tag: 'CLASSIC', emoji: '☕' },
+  { id: 1, name: 'Coffee Jelly', price: 150, tag: 'FAN FAVORITE', Icon: StarIcon   },
+  { id: 2, name: 'Dirty Matcha', price: 145, tag: 'TRENDING',     Icon: LeafIcon   },
+  { id: 3, name: 'Café Latte',   price: 130, tag: 'CLASSIC',      Icon: CoffeeIcon },
 ];
 
-const coffeeList = [
-  { id: 1, name: 'Espresso Shot', price: 100 },
-  { id: 2, name: 'Dirty Matcha', price: 145 },
-  { id: 3, name: 'Coffee Jelly', price: 150 },
-  { id: 4, name: 'Café Latte', price: 130 },
-  { id: 5, name: 'Spanish Latte', price: 140 },
-  { id: 6, name: 'Americano', price: 120 },
+const features = [
+  { Icon: SakuraIcon,  title: 'Japanese Aesthetic', desc: 'Inspired by sakura season and warm Tokyo café culture.'                        },
+  { Icon: SparkleIcon, title: '3D Foam Art',         desc: 'Every cup is sculpted by hand — too cute to drink, too good not to.'           },
+  { Icon: LanternIcon, title: 'Cozy Atmosphere',     desc: 'Red lanterns, plush seats, and a space that feels like home.'                  },
 ];
 
+// ── Component ──────────────────────────────────────────────────────────────
 const HomePage = () => {
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+
   return (
-    <div
-      className="w-full min-h-screen bg-white overflow-x-hidden flex flex-col"
-      style={{ fontFamily: "'Nunito', sans-serif" }}
-    >
+    <div className="hp-page">
 
-      {/* ── HERO BANNER ── */}
-      <section className="relative w-full bg-doki-black overflow-hidden" style={{ minHeight: '52vw', maxHeight: '280px' }}>
-        <img
-          src="/src/assets/DokiImg.png"
-          alt="Doki Cafe"
-          className="w-full h-full object-cover object-center opacity-80"
-          style={{ position: 'absolute', inset: 0, height: '100%' }}
-        />
-        {/* Gradient overlay */}
-        <div
-          className="absolute inset-0"
-          style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%)' }}
-        />
-        {/* Text on hero */}
-        <div className="absolute bottom-4 left-4 right-4">
-          <p
-            style={{
-              fontFamily: "'Bebas Neue', 'Impact', sans-serif",
-              fontSize: '11px',
-              letterSpacing: '0.35em',
-              color: 'rgba(255,255,255,0.6)',
-            }}
-          >
-            DOKI CAFÉ · ANGELES CITY
-          </p>
-          <h2
-            style={{
-              fontFamily: "'Bebas Neue', 'Impact', sans-serif",
-              fontSize: '28px',
-              letterSpacing: '0.04em',
-              color: 'white',
-              lineHeight: 1.1,
-            }}
-          >
-            Every Sip<br />Tells a Story
-          </h2>
+      {/* ── HERO ─────────────────────────────────────────── */}
+      <section className="hp-hero">
+        <img src="/src/assets/cafe-image.png" alt="Doki Café interior" className="hp-hero-img" />
+        <div className="hp-hero-overlay" />
+        <div className="hp-hero-content">
+          <p className="hp-hero-eyebrow">DOKI CAFÉ · ANGELES CITY</p>
+          <h1 className="hp-hero-title">Every Sip<br />Tells a Story</h1>
+          <p className="hp-hero-sub">3D Animal Foam Lattes · Specialty Coffee · Japanese-Inspired Drinks</p>
+          <div className="hp-hero-btns">
+            <Link to="/products" className="hp-btn-primary">ORDER NOW</Link>
+            <Link to="/aboutus"  className="hp-btn-ghost">OUR STORY</Link>
+          </div>
+        </div>
+        <div className="hp-hero-badge">
+          <span className="hp-hero-badge-top">NOW</span>
+          <span className="hp-hero-badge-mid">OPEN</span>
+          <span className="hp-hero-badge-bot">DAILY</span>
         </div>
       </section>
 
-      {/* ── BEST SELLER STRIP ── */}
-      <section className="w-full">
-        {/* Section header */}
-        <div className="flex items-center px-4 py-3 border-b border-black/10">
-          <div className="h-4 w-1 bg-doki-red rounded-full mr-2" />
-          <span
-            style={{
-              fontFamily: "'Bebas Neue', 'Impact', sans-serif",
-              fontSize: '13px',
-              letterSpacing: '0.25em',
-              color: '#111',
-            }}
-          >
-            BEST SELLER
-          </span>
+      {/* ── TICKER ───────────────────────────────────────── */}
+      <div className="hp-ticker">
+        <div className="hp-ticker-track">
+          {['FREE DRINKS ON YOUR BIRTHDAY','3D FOAM ART LATTES','NEW: UBE SPANISH LATTE','OPEN 9AM – 10PM DAILY','DOKI CAFÉ · ANGELES CITY',
+            'FREE DRINKS ON YOUR BIRTHDAY','3D FOAM ART LATTES','NEW: UBE SPANISH LATTE','OPEN 9AM – 10PM DAILY','DOKI CAFÉ · ANGELES CITY',
+          ].map((t, i) => (
+            <span key={i} className="hp-ticker-item">{t} <span className="hp-ticker-dot">✦</span></span>
+          ))}
         </div>
+      </div>
 
-        {/* Horizontal scroll cards */}
-        <div className="flex gap-3 px-4 py-4 overflow-x-auto scrollbar-hide" style={{ scrollSnapType: 'x mandatory' }}>
-          {bestSellers.map((item) => (
-            <Link
-              to={`/product/${item.id}`}
-              key={item.id}
-              style={{ scrollSnapAlign: 'start', minWidth: '140px', maxWidth: '140px' }}
-              className="flex-shrink-0 group"
-            >
-              <div className="relative rounded-xl overflow-hidden bg-[#f5f5f5] border border-black/8">
-                {/* Placeholder image area */}
-                <div
-                  className="w-full flex items-center justify-center bg-[#efefef] text-4xl"
-                  style={{ height: '120px' }}
-                >
-                  {item.emoji}
+      {/* ── BEST SELLERS ─────────────────────────────────── */}
+      <section className="hp-section">
+        <div className="hp-section-header">
+          <div className="hp-section-bar" />
+          <span className="hp-section-title">BEST SELLERS</span>
+        </div>
+        <div className="hp-cards">
+          {bestSellers.map(({ id, name, price, tag, Icon }) => (
+            <Link to={`/product/${id}`} key={id} className="hp-card">
+              <div className="hp-card-img">
+                <div className="hp-card-icon-wrap">
+                  <Icon size={48} color="#cccccc" />
                 </div>
-                {/* Tag */}
-                <div
-                  className="absolute top-2 left-0 bg-doki-red text-white px-2 py-0.5"
-                  style={{
-                    fontFamily: "'Bebas Neue', 'Impact', sans-serif",
-                    fontSize: '9px',
-                    letterSpacing: '0.12em',
-                    borderRadius: '0 4px 4px 0',
-                  }}
-                >
-                  {item.tag}
-                </div>
+                <div className="hp-card-tag">{tag}</div>
               </div>
-              {/* Info */}
-              <div className="mt-2 px-0.5">
-                <p
-                  style={{
-                    fontFamily: "'Nunito', sans-serif",
-                    fontSize: '12px',
-                    fontWeight: 700,
-                    color: '#111',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                  }}
-                >
-                  {item.name}
-                </p>
-                <p
-                  style={{
-                    fontFamily: "'Bebas Neue', 'Impact', sans-serif",
-                    fontSize: '13px',
-                    color: '#FF2D2D',
-                    letterSpacing: '0.05em',
-                  }}
-                >
-                  ₱{item.price}
-                </p>
+              <div className="hp-card-info">
+                <p className="hp-card-name">{name}</p>
+                <p className="hp-card-price">₱{price}</p>
               </div>
             </Link>
           ))}
         </div>
+        <div className="hp-see-all-wrap">
+          <Link to="/products" className="hp-see-all">SEE FULL MENU →</Link>
+        </div>
       </section>
 
-      {/* ── COFFEE LIST GRID ── */}
-      <section className="w-full border-t border-black/8">
-        <div className="flex items-center px-4 py-3 border-b border-black/10">
-          <div className="h-4 w-1 bg-doki-black rounded-full mr-2" />
-          <span
-            style={{
-              fontFamily: "'Bebas Neue', 'Impact', sans-serif",
-              fontSize: '13px',
-              letterSpacing: '0.25em',
-              color: '#111',
-            }}
-          >
-            COFFEE LIST
-          </span>
+      {/* ── CAFE PHOTO STRIP ─────────────────────────────── */}
+      <section className="hp-photo-strip">
+        <img src="/src/assets/cafe-image.png" alt="Doki Café" className="hp-strip-img" />
+        <div className="hp-strip-overlay">
+          <p className="hp-strip-label">VISIT US IN ANGELES CITY</p>
+          <h2 className="hp-strip-heading">A Place to Sip,<br />Stay & Smile</h2>
         </div>
+      </section>
 
-        <div className="grid grid-cols-3 gap-3 px-4 py-4">
-          {coffeeList.map((item) => (
-            <Link to={`/product/${item.id}`} key={item.id} className="flex flex-col items-center group">
-              {/* Image box with red border */}
-              <div
-                className="w-full aspect-square rounded-lg bg-[#f0f0f0] flex items-center justify-center text-3xl border-2 border-doki-red/80"
-              >
-                ☕
+      {/* ── WHY DOKI ─────────────────────────────────────── */}
+      <section className="hp-features">
+        <div className="hp-section-header">
+          <div className="hp-section-bar" />
+          <span className="hp-section-title">WHY DOKI?</span>
+        </div>
+        <div className="hp-features-grid">
+          {features.map(({ Icon, title, desc }, i) => (
+            <div key={i} className="hp-feature-card">
+              <div className="hp-feature-icon-wrap">
+                <Icon size={20} color="#E32636" />
               </div>
-              <p
-                style={{
-                  fontFamily: "'Nunito', sans-serif",
-                  fontSize: '9px',
-                  fontWeight: 700,
-                  color: '#111',
-                  textAlign: 'center',
-                  marginTop: '4px',
-                  lineHeight: 1.3,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                }}
-              >
-                {item.name}
-              </p>
-              <p
-                style={{
-                  fontFamily: "'Bebas Neue', 'Impact', sans-serif",
-                  fontSize: '11px',
-                  color: '#FF2D2D',
-                }}
-              >
-                ₱{item.price}
-              </p>
-            </Link>
+              <div className="hp-feature-text">
+                <h3 className="hp-feature-title">{title}</h3>
+                <p className="hp-feature-desc">{desc}</p>
+              </div>
+            </div>
           ))}
         </div>
       </section>
 
-      {/* ── WHY DOKI SECTION ── */}
-      <section className="w-full bg-[#111] text-white px-6 py-8 mt-2">
-        <p
-          style={{
-            fontFamily: "'Bebas Neue', 'Impact', sans-serif",
-            fontSize: '11px',
-            letterSpacing: '0.35em',
-            color: 'rgba(255,255,255,0.4)',
-            marginBottom: '8px',
-          }}
-        >
-          WHY OUR COFFEE?
-        </p>
-        <h3
-          style={{
-            fontFamily: "'Bebas Neue', 'Impact', sans-serif",
-            fontSize: '26px',
-            letterSpacing: '0.04em',
-            lineHeight: 1.1,
-            marginBottom: '12px',
-          }}
-        >
-          Art You Can<br />Drink
-        </h3>
-        <p
-          style={{
-            fontFamily: "'Nunito', sans-serif",
-            fontSize: '12px',
-            lineHeight: 1.7,
-            color: 'rgba(255,255,255,0.65)',
-          }}
-        >
-          Our 3D Animal Foam Latte isn't just a drink — it's an experience. 
-          Rich espresso, creamy milk, and a sculpted foam character that's almost 
-          too cute to sip.
-        </p>
-        <div className="mt-4 h-px w-full bg-white/10" />
-        <div className="mt-4 flex items-center justify-between">
-          <Link
-            to="/products"
-            style={{
-              fontFamily: "'Bebas Neue', 'Impact', sans-serif",
-              fontSize: '13px',
-              letterSpacing: '0.2em',
-              color: '#FF2D2D',
-            }}
-          >
-            SEE ALL DRINKS →
-          </Link>
-          <span
-            style={{
-              fontFamily: "'Nunito', sans-serif",
-              fontSize: '10px',
-              color: 'rgba(255,255,255,0.3)',
-            }}
-          >
-            Doki Café · 2026
-          </span>
-        </div>
+      {/* ── BOTTOM CTA ───────────────────────────────────── */}
+      <section className="hp-cta">
+        <p className="hp-cta-eyebrow">READY TO ORDER?</p>
+        <h2 className="hp-cta-heading">Your Perfect Cup<br />Is Waiting</h2>
+        <Link to="/products" className="hp-btn-primary hp-cta-btn">EXPLORE THE MENU</Link>
+        <div className="hp-cta-divider" />
+        <p className="hp-cta-footer">Doki Café · Angeles City · 2026</p>
       </section>
+
     </div>
   );
 };

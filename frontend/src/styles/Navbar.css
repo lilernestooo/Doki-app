@@ -1,0 +1,104 @@
+/* ─────────────────────────────────────────────
+   Navbar.css — Doki Café
+   ───────────────────────────────────────────── */
+
+   .nb-nav {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    /* Subtle shadow so it lifts above page content */
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+  }
+  
+  /* ── Top red accent bar ── */
+  .nb-topbar {
+    height: 4px;
+    width: 100%;
+    background: #E32636;
+    flex-shrink: 0;
+  }
+  
+  /* ── Logo + Search row ── */
+  .nb-top-row {
+    background: #111111;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .nb-logo-link {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+  
+  .nb-logo {
+    height: 36px;
+    width: auto;
+    object-fit: contain;
+    transition: opacity 0.2s ease;
+  }
+  
+  .nb-logo:hover {
+    opacity: 0.75;
+  }
+  
+  .nb-search-wrap {
+    flex-grow: 1;
+  }
+  
+  /* ── Nav tabs row ── */
+  .nb-tabs {
+    display: flex;
+    width: 100%;
+    background: #1a1a1a;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  
+  .nb-tab {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 4px;
+    font-family: 'Bebas Neue', 'Impact', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.45);
+    text-decoration: none;
+    transition: color 0.18s ease, background 0.18s ease;
+    white-space: nowrap;
+  }
+  
+  .nb-tab:hover {
+    color: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.04);
+  }
+  
+  /* Active state */
+  .nb-tab--active {
+    color: #ffffff;
+    background: rgba(227, 38, 54, 0.12);
+  }
+  
+  /* Divider between tabs */
+  .nb-tab--border {
+    border-right: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  
+  /* Small red pip under active tab label */
+  .nb-tab-pip {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 2px;
+    background: #E32636;
+    border-radius: 2px 2px 0 0;
+  }

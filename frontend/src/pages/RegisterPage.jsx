@@ -1,179 +1,310 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../styles/RegisterPage.css';
 
+// ── Eye Icons ──────────────────────────────────────────────────────────────
+const EyeIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+    <circle cx="12" cy="12" r="3"/>
+  </svg>
+);
+
+const EyeOffIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+    <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+    <line x1="1" y1="1" x2="23" y2="23"/>
+  </svg>
+);
+
+// ── Password strength helper ───────────────────────────────────────────────
+const getStrength = (pw) => {
+  if (!pw) return { score: 0, label: '', color: '' };
+  let score = 0;
+  if (pw.length >= 8)              score++;
+  if (/[A-Z]/.test(pw))           score++;
+  if (/[0-9]/.test(pw))           score++;
+  if (/[^A-Za-z0-9]/.test(pw))   score++;
+  const map = [
+    { label: 'Too short',  color: '#E32636' },
+    { label: 'Weak',       color: '#E32636' },
+    { label: 'Fair',       color: '#f0a500' },
+    { label: 'Good',       color: '#2ecc71' },
+    { label: 'Strong',     color: '#27ae60' },
+  ];
+  return { score, ...map[score] };
+};
+
+// ── Component ──────────────────────────────────────────────────────────────
 const RegisterPage = () => {
   const navigate = useNavigate();
-  const [form, setForm] = useState({
-    username: '', password: '', confirmPassword: '',
-    email: '', contact: '', address: '',
-  });
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  // Individual state (consistent with LoginPage pattern)
+  const [username, setUsername]         = useState('');
+  const [password, setPassword]         = useState('');
+  const [confirmPassword, setConfirm]   = useState('');
+  const [email, setEmail]               = useState('');
+  const [contact, setContact]           = useState('');
+  const [address, setAddress]           = useState('');
 
-  const fields = [
-    { name: 'username', label: 'USER NAME', type: 'text', placeholder: 'Choose a username' },
-    { name: 'password', label: 'PASSWORD', type: 'password', placeholder: 'Create a password' },
-    { name: 'confirmPassword', label: 'CONFIRM PASSWORD', type: 'password', placeholder: 'Repeat password' },
-    { name: 'email', label: 'EMAIL ADDRESS', type: 'email', placeholder: 'your@email.com' },
-    { name: 'contact', label: 'CONTACT NUMBER', type: 'tel', placeholder: '+63 9XX XXX XXXX' },
-    { name: 'address', label: 'CONTACT ADDRESS', type: 'text', placeholder: 'Street, Barangay, City' },
-  ];
+  // Eye toggles
+  const [showPassword, setShowPassword]   = useState(false);
+  const [showConfirm, setShowConfirm]     = useState(false);
+
+  // Errors & touched
+  const [errors, setErrors]   = useState({});
+  const [touched, setTouched] = useState({});
+
+  const strength = getStrength(password);
+
+  // ── Validation ────────────────────────────────────────────────────────
+  const validateField = (name, value) => {
+    switch (name) {
+      case 'username':
+        if (!value.trim()) return 'Username is required.';
+        if (value.trim().length < 3) return 'At least 3 characters.';
+        return '';
+      case 'password':
+        if (!value) return 'Password is required.';
+        if (value.length < 8) return 'At least 8 characters.';
+        return '';
+      case 'confirmPassword':
+        if (!value) return 'Please confirm your password.';
+        if (value !== password) return 'Passwords do not match.';
+        return '';
+      case 'email':
+        if (!value.trim()) return 'Email is required.';
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Enter a valid email.';
+        return '';
+      case 'contact':
+        if (!value.trim()) return 'Contact number is required.';
+        if (!/^[\d\s+\-()]{7,15}$/.test(value)) return 'Enter a valid contact number.';
+        return '';
+      case 'address':
+        if (!value.trim()) return 'Address is required.';
+        return '';
+      default:
+        return '';
+    }
+  };
+
+  const handleBlur = (name, value) => {
+    setTouched((prev) => ({ ...prev, [name]: true }));
+    setErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
+  };
+
+  const handleChange = (name, value, setter) => {
+    setter(value);
+    if (touched[name]) {
+      setErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
+    }
+    // Re-validate confirmPassword live when password changes
+    if (name === 'password' && touched.confirmPassword) {
+      setErrors((prev) => ({
+        ...prev,
+        confirmPassword: confirmPassword !== value ? 'Passwords do not match.' : '',
+      }));
+    }
+  };
+
+  const handleSubmit = () => {
+    const allTouched = { username: true, password: true, confirmPassword: true, email: true, contact: true, address: true };
+    setTouched(allTouched);
+    const values = { username, password, confirmPassword, email, contact, address };
+    const newErrors = {};
+    Object.keys(values).forEach((k) => { newErrors[k] = validateField(k, values[k]); });
+    setErrors(newErrors);
+    const isValid = Object.values(newErrors).every((e) => !e);
+    if (isValid) navigate('/login');
+  };
+
+  // ── Password field helper ─────────────────────────────────────────────
+  const PasswordInput = ({ name, value, onChange, onBlur, show, onToggle, placeholder }) => (
+    <div className="reg-input-wrap">
+      <input
+        type={show ? 'text' : 'password'}
+        name={name}
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+        placeholder={placeholder}
+        className={`reg-input reg-input--password ${errors[name] ? 'reg-input--error' : ''}`}
+      />
+      <button
+        type="button"
+        className="reg-eye-btn"
+        onClick={onToggle}
+        aria-label={show ? 'Hide password' : 'Show password'}
+      >
+        {show ? <EyeOffIcon /> : <EyeIcon />}
+      </button>
+    </div>
+  );
 
   return (
-    <div
-      className="min-h-screen flex flex-col bg-white overflow-hidden"
-      style={{ fontFamily: "'Nunito', sans-serif" }}
-    >
-      {/* Top bar */}
-      <div className="h-1.5 w-full bg-doki-red" />
+    <div className="reg-page">
+
+      {/* Top red bar */}
+      <div className="reg-topbar" />
 
       {/* Header */}
-      <div className="bg-doki-black px-6 py-5 flex items-center gap-3">
-        <img
-          src="/src/assets/logo (3).png"
-          alt="Doki Logo"
-          className="h-10 w-auto brightness-200 object-contain"
-        />
+      <div className="reg-header">
+        <img src="/src/assets/logo (3).png" alt="Doki Logo" className="reg-header-logo" />
         <div>
-          <p
-            style={{
-              fontFamily: "'Bebas Neue', 'Impact', sans-serif",
-              fontSize: '18px',
-              letterSpacing: '0.12em',
-              color: 'white',
-              lineHeight: 1,
-            }}
-          >
-            CUSTOMER REGISTRATION
-          </p>
-          <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.08em' }}>
-            Create your Doki account
-          </p>
+          <p className="reg-header-title">CUSTOMER REGISTRATION</p>
+          <p className="reg-header-sub">Create your Doki account</p>
         </div>
       </div>
 
-      {/* Page body */}
-      <div className="flex-grow flex flex-col items-center justify-start px-5 py-8 bg-[#f7f7f7] overflow-y-auto">
+      {/* Body */}
+      <div className="reg-body">
+        <div className="reg-card">
 
-        {/* ── FORM CARD CONTAINER ── */}
-        <div className="w-full max-w-sm bg-white rounded-2xl px-6 py-8"
-          style={{ boxShadow: '0 2px 16px rgba(0,0,0,0.07)', border: '1px solid #f0f0f0' }}
-        >
           {/* Avatar */}
-          <div className="flex justify-center mb-6">
-            <div className="w-16 h-16 rounded-full bg-[#f5f5f5] border-2 border-doki-red flex items-center justify-center">
-              <svg className="w-8 h-8 text-[#ccc]" fill="currentColor" viewBox="0 0 24 24">
+          <div className="reg-avatar-wrap">
+            <div className="reg-avatar">
+              <svg className="reg-avatar-icon" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
               </svg>
             </div>
           </div>
 
-          {/* Fields */}
-          <div className="flex flex-col gap-4">
-            {fields.map((field) => (
-              <div key={field.name} className="flex flex-col gap-1.5">
-                <label
-                  style={{
-                    fontFamily: "'Bebas Neue', 'Impact', sans-serif",
-                    fontSize: '9px',
-                    letterSpacing: '0.2em',
-                    color: '#999',
-                  }}
-                >
-                  {field.label}
-                </label>
-                <input
-                  type={field.type}
-                  name={field.name}
-                  value={form[field.name]}
-                  onChange={handleChange}
-                  placeholder={field.placeholder}
-                  style={{
-                    fontFamily: "'Nunito', sans-serif",
-                    fontSize: '13px',
-                    border: '1.5px solid #e5e5e5',
-                    borderRadius: '10px',
-                    padding: '11px 16px',
-                    outline: 'none',
-                    transition: 'border-color 0.2s',
-                    width: '100%',
-                    background: '#fafafa',
-                  }}
-                  onFocus={e => (e.target.style.borderColor = '#FF2D2D')}
-                  onBlur={e => (e.target.style.borderColor = '#e5e5e5')}
-                />
-              </div>
-            ))}
+          {/* ── Fields ── */}
+          <div className="reg-fields">
+
+            {/* Username */}
+            <div className="reg-field">
+              <label className="reg-label">USER NAME</label>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => handleChange('username', e.target.value, setUsername)}
+                onBlur={(e) => handleBlur('username', e.target.value)}
+                placeholder="Choose a username"
+                className={`reg-input ${errors.username ? 'reg-input--error' : ''}`}
+              />
+              {errors.username && <span className="reg-error">{errors.username}</span>}
+            </div>
+
+            {/* Password */}
+            <div className="reg-field">
+              <label className="reg-label">PASSWORD</label>
+              <PasswordInput
+                name="password"
+                value={password}
+                onChange={(e) => handleChange('password', e.target.value, setPassword)}
+                onBlur={(e) => handleBlur('password', e.target.value)}
+                show={showPassword}
+                onToggle={() => setShowPassword((p) => !p)}
+                placeholder="Create a password"
+              />
+              {/* Strength meter */}
+              {password.length > 0 && (
+                <div className="reg-strength">
+                  <div className="reg-strength-bars">
+                    {[1, 2, 3, 4].map((i) => (
+                      <div
+                        key={i}
+                        className="reg-strength-bar"
+                        style={{ background: i <= strength.score ? strength.color : '#e5e5e5' }}
+                      />
+                    ))}
+                  </div>
+                  <span className="reg-strength-label" style={{ color: strength.color }}>
+                    {strength.label}
+                  </span>
+                </div>
+              )}
+              {errors.password && <span className="reg-error">{errors.password}</span>}
+            </div>
+
+            {/* Confirm Password */}
+            <div className="reg-field">
+              <label className="reg-label">CONFIRM PASSWORD</label>
+              <PasswordInput
+                name="confirmPassword"
+                value={confirmPassword}
+                onChange={(e) => handleChange('confirmPassword', e.target.value, setConfirm)}
+                onBlur={(e) => handleBlur('confirmPassword', e.target.value)}
+                show={showConfirm}
+                onToggle={() => setShowConfirm((p) => !p)}
+                placeholder="Repeat password"
+              />
+              {/* Match indicator */}
+              {confirmPassword.length > 0 && !errors.confirmPassword && (
+                <span className="reg-match">✓ Passwords match</span>
+              )}
+              {errors.confirmPassword && <span className="reg-error">{errors.confirmPassword}</span>}
+            </div>
+
+            {/* Email */}
+            <div className="reg-field">
+              <label className="reg-label">EMAIL ADDRESS</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => handleChange('email', e.target.value, setEmail)}
+                onBlur={(e) => handleBlur('email', e.target.value)}
+                placeholder="your@email.com"
+                className={`reg-input ${errors.email ? 'reg-input--error' : ''}`}
+              />
+              {errors.email && <span className="reg-error">{errors.email}</span>}
+            </div>
+
+            {/* Contact */}
+            <div className="reg-field">
+              <label className="reg-label">CONTACT NUMBER</label>
+              <input
+                type="tel"
+                value={contact}
+                onChange={(e) => handleChange('contact', e.target.value, setContact)}
+                onBlur={(e) => handleBlur('contact', e.target.value)}
+                placeholder="+63 9XX XXX XXXX"
+                className={`reg-input ${errors.contact ? 'reg-input--error' : ''}`}
+              />
+              {errors.contact && <span className="reg-error">{errors.contact}</span>}
+            </div>
+
+            {/* Address */}
+            <div className="reg-field">
+              <label className="reg-label">CONTACT ADDRESS</label>
+              <input
+                type="text"
+                value={address}
+                onChange={(e) => handleChange('address', e.target.value, setAddress)}
+                onBlur={(e) => handleBlur('address', e.target.value)}
+                placeholder="Street, Barangay, City"
+                className={`reg-input ${errors.address ? 'reg-input--error' : ''}`}
+              />
+              {errors.address && <span className="reg-error">{errors.address}</span>}
+            </div>
+
           </div>
+          {/* ── End Fields ── */}
 
           {/* Divider */}
-          <div className="h-px w-full bg-[#f0f0f0] my-6" />
+          <div className="reg-divider" />
 
           {/* Buttons */}
-          <div className="flex gap-3">
-            <button
-              onClick={() => navigate('/login')}
-              style={{
-                fontFamily: "'Bebas Neue', 'Impact', sans-serif",
-                fontSize: '14px',
-                letterSpacing: '0.18em',
-                flex: 2,
-                borderRadius: '50px',
-                padding: '14px',
-                background: '#FF2D2D',
-                color: 'white',
-                border: 'none',
-                cursor: 'pointer',
-                transition: 'background 0.2s',
-              }}
-              onMouseEnter={e => (e.target.style.background = '#cc2020')}
-              onMouseLeave={e => (e.target.style.background = '#FF2D2D')}
-            >
-              CONFIRM
-            </button>
-            <button
-              onClick={() => navigate('/')}
-              style={{
-                fontFamily: "'Bebas Neue', 'Impact', sans-serif",
-                fontSize: '14px',
-                letterSpacing: '0.18em',
-                flex: 1,
-                borderRadius: '50px',
-                padding: '14px',
-                background: 'transparent',
-                color: '#999',
-                border: '1.5px solid #e5e5e5',
-                cursor: 'pointer',
-              }}
-            >
-              CANCEL
-            </button>
+          <div className="reg-actions">
+            <button className="reg-btn-primary" onClick={handleSubmit}>CONFIRM</button>
+            <button className="reg-btn-cancel" onClick={() => navigate('/')}>CANCEL</button>
           </div>
 
           {/* Login link */}
-          <p
-            style={{
-              fontFamily: "'Nunito', sans-serif",
-              fontSize: '12px',
-              color: '#bbb',
-              textAlign: 'center',
-              marginTop: '20px',
-            }}
-          >
+          <p className="reg-login-text">
             Already have an account?{' '}
-            <span
-              onClick={() => navigate('/login')}
-              style={{ color: '#FF2D2D', fontWeight: 700, cursor: 'pointer' }}
-            >
-              Log In
-            </span>
+            <span className="reg-login-link" onClick={() => navigate('/login')}>Log In</span>
           </p>
-        </div>
-        {/* ── END FORM CARD ── */}
 
+        </div>
       </div>
 
-      <div className="h-1.5 w-full bg-doki-red" />
+      {/* Bottom red bar */}
+      <div className="reg-topbar" />
     </div>
   );
 };

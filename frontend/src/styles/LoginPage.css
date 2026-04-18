@@ -1,0 +1,271 @@
+/* ── Page wrapper ── */
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #f7f7f7;
+    font-family: 'Nunito', sans-serif;
+    overflow: hidden;
+  }
+  
+  /* ── Top / Bottom red bar ── */
+  .login-topbar {
+    height: 6px;
+    width: 100%;
+    background: #E32636;
+    flex-shrink: 0;
+  }
+  
+  /* ── Header (black bar) ── */
+  .login-header {
+    background: #111111;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .login-header-logo {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+}
+  
+  .login-header-title {
+    font-family: 'Bebas Neue', 'Impact', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.12em;
+    color: #ffffff;
+    line-height: 1;
+    margin: 0;
+  }
+  
+  .login-header-sub {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.1em;
+    margin: 4px 0 0;
+  }
+  
+  /* ── Body ── */
+  .login-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 20px;
+    background: #f7f7f7;
+  }
+  
+  /* ── Card ── */
+  .login-card {
+    width: 100%;
+    max-width: 360px;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 32px 24px;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.07);
+  }
+  
+  /* ── Avatar ── */
+  .login-avatar-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 28px;
+  }
+  
+  .login-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #f5f5f5;
+    border: 2.5px solid #E32636;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .login-avatar-icon {
+    width: 40px;
+    height: 40px;
+    color: #cccccc;
+  }
+  
+  /* ── Fields group ── */
+  .login-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  /* ── Single field ── */
+  .login-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  /* ── Label ── */
+  .login-label {
+    font-family: 'Bebas Neue', 'Impact', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: #999999;
+  }
+  
+  /* ── Input wrapper (for password eye icon) ── */
+  .login-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  /* ── Base input ── */
+  .login-input {
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid #e5e5e5;
+    border-radius: 10px;
+    background: #fafafa;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    color: #222222;
+    box-sizing: border-box;
+  }
+  
+  .login-input:focus {
+    border-color: #E32636;
+    box-shadow: 0 0 0 3px rgba(227, 38, 54, 0.08);
+  }
+  
+  /* Password input — leave room for the eye icon */
+  .login-input--password {
+    padding-right: 44px;
+  }
+  
+  /* Error state */
+  .login-input--error {
+    border-color: #E32636 !important;
+    background: #fff8f8;
+  }
+  
+  .login-input--error:focus {
+    box-shadow: 0 0 0 3px rgba(227, 38, 54, 0.12);
+  }
+  
+  /* ── Error message ── */
+  .login-error-msg {
+    font-family: 'Nunito', sans-serif;
+    font-size: 11px;
+    color: #E32636;
+    letter-spacing: 0.01em;
+    padding-left: 2px;
+    animation: login-shake 0.25s ease;
+  }
+  
+  @keyframes login-shake {
+    0%, 100% { transform: translateX(0); }
+    25%       { transform: translateX(-4px); }
+    75%       { transform: translateX(4px); }
+  }
+  
+  /* ── Eye toggle button ── */
+  .login-eye-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #aaaaaa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: 6px;
+    transition: color 0.2s ease;
+  }
+  
+  .login-eye-btn:hover {
+    color: #E32636;
+  }
+  
+  /* ── Divider ── */
+  .login-divider {
+    height: 1px;
+    width: 100%;
+    background: #f0f0f0;
+    margin: 24px 0;
+  }
+  
+  /* ── Action buttons ── */
+  .login-actions {
+    display: flex;
+    gap: 12px;
+  }
+  
+  .login-btn-primary {
+    font-family: 'Bebas Neue', 'Impact', sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    flex: 2;
+    border-radius: 50px;
+    padding: 14px;
+    background: #E32636;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+  }
+  
+  .login-btn-primary:hover {
+    background: #c41e2e;
+  }
+  
+  .login-btn-primary:active {
+    transform: scale(0.98);
+  }
+  
+  .login-btn-cancel {
+    font-family: 'Bebas Neue', 'Impact', sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    flex: 1;
+    border-radius: 50px;
+    padding: 14px;
+    background: transparent;
+    color: #999999;
+    border: 1.5px solid #e5e5e5;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  
+  .login-btn-cancel:hover {
+    border-color: #cccccc;
+    color: #666666;
+  }
+  
+  /* ── Register link ── */
+  .login-register-text {
+    font-family: 'Nunito', sans-serif;
+    font-size: 12px;
+    color: #bbbbbb;
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .login-register-link {
+    color: #E32636;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+  
+  .login-register-link:hover {
+    opacity: 0.8;
+  }

@@ -1,0 +1,54 @@
+/* ─────────────────────────────────────────────
+   SearchBar.css — Doki Café
+   ───────────────────────────────────────────── */
+
+   .sb-wrap {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    transition: transform 0.15s ease;
+  }
+  
+  .sb-wrap--focused {
+    transform: scaleX(1.01);
+  }
+  
+  .sb-input {
+    width: 100%;
+    background: #ffffff; /* white background */
+    border: 1px solid rgba(0, 0, 0, 0.12); /* visible border */
+    border-radius: 50px;
+    padding: 8px 36px 8px 16px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 12px;
+    color: #000000; /* dark text */
+    outline: none;
+    transition: background 0.2s ease, border-color 0.2s ease;
+    box-sizing: border-box;
+  }
+  
+  .sb-input::placeholder {
+    color: rgba(0, 0, 0, 0.4); /* readable placeholder */
+  }
+  
+  .sb-input:focus {
+    background: #ffffff;
+    border-color: #E32636; /* Doki red */
+  }
+  
+  .sb-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(0, 0, 0, 0.4); /* darker icon */
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+    transition: color 0.2s ease;
+  }
+  
+  .sb-wrap--focused .sb-icon {
+    color: #E32636; /* red when focused */
+  }
