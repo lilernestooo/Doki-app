@@ -2,6 +2,9 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/HomePage.css';
 
+// ✅ FIX: Proper Vite image import (Vercel-safe)
+import cafeImage from '../assets/cafe-image.png';
+
 // ── SVG Icons ──────────────────────────────────────────────────────────────
 const CoffeeIcon = ({ size = 28, color = '#cccccc' }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
@@ -61,51 +64,80 @@ const LanternIcon = ({ size = 20, color = '#E32636' }) => (
 
 // ── Data ───────────────────────────────────────────────────────────────────
 const bestSellers = [
-  { id: 1, name: 'Coffee Jelly', price: 150, tag: 'FAN FAVORITE', Icon: StarIcon   },
-  { id: 2, name: 'Dirty Matcha', price: 145, tag: 'TRENDING',     Icon: LeafIcon   },
-  { id: 3, name: 'Café Latte',   price: 130, tag: 'CLASSIC',      Icon: CoffeeIcon },
+  { id: 1, name: 'Coffee Jelly', price: 150, tag: 'FAN FAVORITE', Icon: StarIcon },
+  { id: 2, name: 'Dirty Matcha', price: 145, tag: 'TRENDING', Icon: LeafIcon },
+  { id: 3, name: 'Café Latte', price: 130, tag: 'CLASSIC', Icon: CoffeeIcon },
 ];
 
 const features = [
-  { Icon: SakuraIcon,  title: 'Japanese Aesthetic', desc: 'Inspired by sakura season and warm Tokyo café culture.'                        },
-  { Icon: SparkleIcon, title: '3D Foam Art',         desc: 'Every cup is sculpted by hand — too cute to drink, too good not to.'           },
-  { Icon: LanternIcon, title: 'Cozy Atmosphere',     desc: 'Red lanterns, plush seats, and a space that feels like home.'                  },
+  {
+    Icon: SakuraIcon,
+    title: 'Japanese Aesthetic',
+    desc: 'Inspired by sakura season and warm Tokyo café culture.'
+  },
+  {
+    Icon: SparkleIcon,
+    title: '3D Foam Art',
+    desc: 'Every cup is sculpted by hand — too cute to drink, too good not to.'
+  },
+  {
+    Icon: LanternIcon,
+    title: 'Cozy Atmosphere',
+    desc: 'Red lanterns, plush seats, and a space that feels like home.'
+  },
 ];
 
 // ── Component ──────────────────────────────────────────────────────────────
 const HomePage = () => {
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="hp-page">
 
       {/* ── HERO ─────────────────────────────────────────── */}
       <section className="hp-hero">
-        <img src="/src/assets/cafe-image.png" alt="Doki Café interior" className="hp-hero-img" />
+        <img
+          src={cafeImage}
+          alt="Doki Café interior"
+          className="hp-hero-img"
+        />
         <div className="hp-hero-overlay" />
         <div className="hp-hero-content">
           <p className="hp-hero-eyebrow">DOKI CAFÉ · ANGELES CITY</p>
-          <h1 className="hp-hero-title">Every Sip<br />Tells a Story</h1>
-          <p className="hp-hero-sub">3D Animal Foam Lattes · Specialty Coffee · Japanese-Inspired Drinks</p>
+          <h1 className="hp-hero-title">
+            Every Sip<br />Tells a Story
+          </h1>
+          <p className="hp-hero-sub">
+            3D Animal Foam Lattes · Specialty Coffee · Japanese-Inspired Drinks
+          </p>
+
           <div className="hp-hero-btns">
             <Link to="/products" className="hp-btn-primary">ORDER NOW</Link>
-            <Link to="/aboutus"  className="hp-btn-ghost">OUR STORY</Link>
+            <Link to="/aboutus" className="hp-btn-ghost">OUR STORY</Link>
           </div>
-        </div>
-        <div className="hp-hero-badge">
-          <span className="hp-hero-badge-top">NOW</span>
-          <span className="hp-hero-badge-mid">OPEN</span>
-          <span className="hp-hero-badge-bot">DAILY</span>
         </div>
       </section>
 
       {/* ── TICKER ───────────────────────────────────────── */}
       <div className="hp-ticker">
         <div className="hp-ticker-track">
-          {['FREE DRINKS ON YOUR BIRTHDAY','3D FOAM ART LATTES','NEW: UBE SPANISH LATTE','OPEN 9AM – 10PM DAILY','DOKI CAFÉ · ANGELES CITY',
-            'FREE DRINKS ON YOUR BIRTHDAY','3D FOAM ART LATTES','NEW: UBE SPANISH LATTE','OPEN 9AM – 10PM DAILY','DOKI CAFÉ · ANGELES CITY',
+          {[
+            'FREE DRINKS ON YOUR BIRTHDAY',
+            '3D FOAM ART LATTES',
+            'NEW: UBE SPANISH LATTE',
+            'OPEN 9AM – 10PM DAILY',
+            'DOKI CAFÉ · ANGELES CITY',
+            'FREE DRINKS ON YOUR BIRTHDAY',
+            '3D FOAM ART LATTES',
+            'NEW: UBE SPANISH LATTE',
+            'OPEN 9AM – 10PM DAILY',
+            'DOKI CAFÉ · ANGELES CITY',
           ].map((t, i) => (
-            <span key={i} className="hp-ticker-item">{t} <span className="hp-ticker-dot">✦</span></span>
+            <span key={i} className="hp-ticker-item">
+              {t} <span className="hp-ticker-dot">✦</span>
+            </span>
           ))}
         </div>
       </div>
@@ -116,6 +148,7 @@ const HomePage = () => {
           <div className="hp-section-bar" />
           <span className="hp-section-title">BEST SELLERS</span>
         </div>
+
         <div className="hp-cards">
           {bestSellers.map(({ id, name, price, tag, Icon }) => (
             <Link to={`/product/${id}`} key={id} className="hp-card">
@@ -125,6 +158,7 @@ const HomePage = () => {
                 </div>
                 <div className="hp-card-tag">{tag}</div>
               </div>
+
               <div className="hp-card-info">
                 <p className="hp-card-name">{name}</p>
                 <p className="hp-card-price">₱{price}</p>
@@ -132,17 +166,26 @@ const HomePage = () => {
             </Link>
           ))}
         </div>
+
         <div className="hp-see-all-wrap">
-          <Link to="/products" className="hp-see-all">SEE FULL MENU →</Link>
+          <Link to="/products" className="hp-see-all">
+            SEE FULL MENU →
+          </Link>
         </div>
       </section>
 
-      {/* ── CAFE PHOTO STRIP ─────────────────────────────── */}
+      {/* ── PHOTO STRIP ─────────────────────────────── */}
       <section className="hp-photo-strip">
-        <img src="/src/assets/cafe-image.png" alt="Doki Café" className="hp-strip-img" />
+        <img
+          src={cafeImage}
+          alt="Doki Café"
+          className="hp-strip-img"
+        />
         <div className="hp-strip-overlay">
           <p className="hp-strip-label">VISIT US IN ANGELES CITY</p>
-          <h2 className="hp-strip-heading">A Place to Sip,<br />Stay & Smile</h2>
+          <h2 className="hp-strip-heading">
+            A Place to Sip,<br />Stay & Smile
+          </h2>
         </div>
       </section>
 
@@ -152,6 +195,7 @@ const HomePage = () => {
           <div className="hp-section-bar" />
           <span className="hp-section-title">WHY DOKI?</span>
         </div>
+
         <div className="hp-features-grid">
           {features.map(({ Icon, title, desc }, i) => (
             <div key={i} className="hp-feature-card">
@@ -167,13 +211,21 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* ── BOTTOM CTA ───────────────────────────────────── */}
+      {/* ── CTA ───────────────────────────────────── */}
       <section className="hp-cta">
         <p className="hp-cta-eyebrow">READY TO ORDER?</p>
-        <h2 className="hp-cta-heading">Your Perfect Cup<br />Is Waiting</h2>
-        <Link to="/products" className="hp-btn-primary hp-cta-btn">EXPLORE THE MENU</Link>
+        <h2 className="hp-cta-heading">
+          Your Perfect Cup<br />Is Waiting
+        </h2>
+
+        <Link to="/products" className="hp-btn-primary hp-cta-btn">
+          EXPLORE THE MENU
+        </Link>
+
         <div className="hp-cta-divider" />
-        <p className="hp-cta-footer">Doki Café · Angeles City · 2026</p>
+        <p className="hp-cta-footer">
+          Doki Café · Angeles City · 2026
+        </p>
       </section>
 
     </div>

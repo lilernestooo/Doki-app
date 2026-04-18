@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import dokiImg from '../assets/DokiImg.png';
+
 const bestSellers = [
   { id: 1, name: 'Coffee Jelly', price: 150, tag: 'FAN FAVORITE' },
   { id: 2, name: 'Dirty Matcha', price: 145, tag: 'TRENDING' },
@@ -69,7 +71,7 @@ const ProductPage = () => {
                 }}
               >
                 <img
-                  src="/src/assets/DokiImg.png"
+                  src={dokiImg}
                   alt={item.name}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
@@ -190,7 +192,7 @@ const ProductPage = () => {
                 }}
               >
                 <img
-                  src="/src/assets/DokiImg.png"
+                  src={dokiImg}
                   alt={item.name}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />

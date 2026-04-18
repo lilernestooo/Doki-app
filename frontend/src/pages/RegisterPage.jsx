@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/RegisterPage.css';
 
+import logo from '../assets/logo (3).png';
 // ── Eye Icons ──────────────────────────────────────────────────────────────
 const EyeIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -152,7 +153,7 @@ const RegisterPage = () => {
 
       {/* Header */}
       <div className="reg-header">
-        <img src="/src/assets/logo (3).png" alt="Doki Logo" className="reg-header-logo" />
+      <img src={logo} alt="Doki Logo" className="reg-header-logo" />
         <div>
           <p className="reg-header-title">CUSTOMER REGISTRATION</p>
           <p className="reg-header-sub">Create your Doki account</p>

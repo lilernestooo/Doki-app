@@ -3,6 +3,9 @@ import { Link, useLocation } from 'react-router-dom';
 import SearchBar from './SearchBar';
 import '../styles/Navbar.css';
 
+// ✅ import image properly (Vite-safe)
+import logo from '../assets/logo (3).png';
+
 const navItems = [
   { label: 'HOME',     path: '/home'     },
   { label: 'PRODUCTS', path: '/products' },
@@ -23,11 +26,12 @@ const Navbar = () => {
       <div className="nb-top-row">
         <Link to="/home" className="nb-logo-link">
           <img
-            src="/src/assets/logo (3).png"
+            src={logo}   // ✅ FIXED HERE
             alt="Doki Logo"
             className="nb-logo"
           />
         </Link>
+
         <div className="nb-search-wrap">
           <SearchBar />
         </div>
@@ -41,7 +45,9 @@ const Navbar = () => {
             <Link
               key={item.label}
               to={item.path}
-              className={`nb-tab ${isActive ? 'nb-tab--active' : ''} ${i < navItems.length - 1 ? 'nb-tab--border' : ''}`}
+              className={`nb-tab ${isActive ? 'nb-tab--active' : ''} ${
+                i < navItems.length - 1 ? 'nb-tab--border' : ''
+              }`}
             >
               {item.label}
               {isActive && <span className="nb-tab-pip" />}
