@@ -1,95 +1,198 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import DokiHero from '../assets/DokiImg-removebg.png'; 
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ username: '', password: '' });
+  const [form, setForm] = useState({ username: '', password: '' });
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    navigate('/home');
-  };
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   return (
-    <div className="min-h-screen flex flex-col bg-white font-sans overflow-x-hidden relative">
-      
-      {/* Top Brand Strip - Visual anchor */}
-      <div className="w-full bg-doki-red h-4 md:h-6 border-b-2 border-black z-50" />
+    <div
+      className="min-h-screen flex flex-col bg-white overflow-hidden"
+      style={{ fontFamily: "'Nunito', sans-serif" }}
+    >
+      {/* Top red bar */}
+      <div className="h-1.5 w-full bg-doki-red" />
 
-      <div className="flex-grow flex flex-col items-center justify-center px-6 py-10 relative">
-        
-        {/* Signup/Login Toggle - Positioned top right as per branding */}
-        <div className="absolute top-10 right-6 md:right-12 flex space-x-3 text-[12px] font-black text-doki-red animate-fadeIn">
-          <Link to="/register" className="hover:underline">SIGNUP</Link>
-          <span className="text-black">|</span>
-          <span className="text-doki-red opacity-50 cursor-default">LOGIN</span>
+      {/* Header */}
+      <div className="bg-doki-black px-6 py-6 flex items-center gap-3">
+        <img
+          src="/src/assets/logo (3).png"
+          alt="Doki Logo"
+          className="h-10 w-auto brightness-200 object-contain"
+        />
+        <div>
+          <p
+            style={{
+              fontFamily: "'Bebas Neue', 'Impact', sans-serif",
+              fontSize: '18px',
+              letterSpacing: '0.12em',
+              color: 'white',
+              lineHeight: 1,
+            }}
+          >
+            CUSTOMER LOGIN
+          </p>
+          <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em' }}>
+            Welcome back to Doki Café
+          </p>
         </div>
+      </div>
 
-        {/* Hero Illustration - Scaled for impact */}
-        <div className="w-full max-w-[320px] md:max-w-md animate-fadeIn">
-          <img 
-            src={DokiHero} 
-            alt="Doki Brand Art" 
-            className="w-full h-auto object-contain mb-[-15px] md:mb-[-30px]" 
-          />
-        </div>
+      {/* Page body */}
+      <div className="flex-grow flex flex-col items-center justify-center px-5 py-8 bg-[#f7f7f7]">
 
-        {/* Login Form - Organized Stack */}
-        <form 
-          onSubmit={handleLogin} 
-          className="w-full max-w-[280px] md:max-w-xs space-y-6 z-20 animate-fadeIn"
-          style={{ animationDelay: '0.2s' }}
+        {/* ── FORM CARD CONTAINER ── */}
+        <div className="w-full max-w-sm bg-white rounded-2xl px-6 py-8"
+          style={{ boxShadow: '0 2px 16px rgba(0,0,0,0.07)', border: '1px solid #f0f0f0' }}
         >
-          {/* User Name Input */}
-          <div className="flex flex-col items-center">
-            <input
-              type="text"
-              className="w-full border-2 border-black rounded-xl p-2 md:p-3 text-center text-sm font-bold outline-none focus:ring-2 focus:ring-doki-red transition-all"
-              onChange={(e) => setFormData({...formData, username: e.target.value})}
-              required
-            />
-            <label className="text-[10px] md:text-[11px] font-black mt-1 tracking-widest text-black uppercase">User Name</label>
-          </div>
-          
-          {/* Password Input */}
-          <div className="flex flex-col items-center">
-            <input
-              type="password"
-              className="w-full border-2 border-black rounded-xl p-2 md:p-3 text-center text-sm font-bold outline-none focus:ring-2 focus:ring-doki-red transition-all"
-              onChange={(e) => setFormData({...formData, password: e.target.value})}
-              required
-            />
-            <label className="text-[10px] md:text-[11px] font-black mt-1 tracking-widest text-black uppercase">Password</label>
+          {/* Avatar */}
+          <div className="flex justify-center mb-7">
+            <div className="w-20 h-20 rounded-full bg-[#f5f5f5] border-2 border-doki-red flex items-center justify-center">
+              <svg className="w-10 h-10 text-[#ccc]" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+              </svg>
+            </div>
           </div>
 
-          {/* Buttons - Thick shadows for that "Pop" look */}
-          <div className="flex space-x-4 pt-2">
-            <button 
-              type="submit" 
-              className="flex-1 bg-doki-red text-white py-2 md:py-3 rounded-xl font-black italic border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-none transition-all"
+          {/* Inputs */}
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1.5">
+              <label
+                style={{
+                  fontFamily: "'Bebas Neue', 'Impact', sans-serif",
+                  fontSize: '10px',
+                  letterSpacing: '0.2em',
+                  color: '#999',
+                }}
+              >
+                USER NAME
+              </label>
+              <input
+                type="text"
+                name="username"
+                value={form.username}
+                onChange={handleChange}
+                style={{
+                  fontFamily: "'Nunito', sans-serif",
+                  fontSize: '13px',
+                  border: '1.5px solid #e5e5e5',
+                  borderRadius: '10px',
+                  padding: '12px 16px',
+                  outline: 'none',
+                  transition: 'border-color 0.2s',
+                  width: '100%',
+                  background: '#fafafa',
+                }}
+                onFocus={e => (e.target.style.borderColor = '#FF2D2D')}
+                onBlur={e => (e.target.style.borderColor = '#e5e5e5')}
+                placeholder="Enter your username"
+              />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label
+                style={{
+                  fontFamily: "'Bebas Neue', 'Impact', sans-serif",
+                  fontSize: '10px',
+                  letterSpacing: '0.2em',
+                  color: '#999',
+                }}
+              >
+                PASSWORD
+              </label>
+              <input
+                type="password"
+                name="password"
+                value={form.password}
+                onChange={handleChange}
+                style={{
+                  fontFamily: "'Nunito', sans-serif",
+                  fontSize: '13px',
+                  border: '1.5px solid #e5e5e5',
+                  borderRadius: '10px',
+                  padding: '12px 16px',
+                  outline: 'none',
+                  transition: 'border-color 0.2s',
+                  width: '100%',
+                  background: '#fafafa',
+                }}
+                onFocus={e => (e.target.style.borderColor = '#FF2D2D')}
+                onBlur={e => (e.target.style.borderColor = '#e5e5e5')}
+                placeholder="Enter your password"
+              />
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="h-px w-full bg-[#f0f0f0] my-6" />
+
+          {/* Buttons */}
+          <div className="flex gap-3">
+            <button
+              onClick={() => navigate('/home')}
+              style={{
+                fontFamily: "'Bebas Neue', 'Impact', sans-serif",
+                fontSize: '14px',
+                letterSpacing: '0.18em',
+                flex: 2,
+                borderRadius: '50px',
+                padding: '14px',
+                background: '#FF2D2D',
+                color: 'white',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'background 0.2s',
+              }}
+              onMouseEnter={e => (e.target.style.background = '#cc2020')}
+              onMouseLeave={e => (e.target.style.background = '#FF2D2D')}
             >
-              LOG-IN
+              LOG IN
             </button>
-            
-            <button 
-              type="button"
+            <button
               onClick={() => navigate('/')}
-              className="flex-1 bg-doki-red text-white py-2 md:py-3 rounded-xl font-black italic border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-none transition-all"
+              style={{
+                fontFamily: "'Bebas Neue', 'Impact', sans-serif",
+                fontSize: '14px',
+                letterSpacing: '0.18em',
+                flex: 1,
+                borderRadius: '50px',
+                padding: '14px',
+                background: 'transparent',
+                color: '#999',
+                border: '1.5px solid #e5e5e5',
+                cursor: 'pointer',
+              }}
             >
               CANCEL
             </button>
           </div>
-        </form>
 
-        {/* Bottom Tagline */}
-        <p className="mt-12 text-[10px] font-black tracking-widest text-black opacity-40">
-          DOKI COFFEE CO. © 2026
-        </p>
+          {/* Register link */}
+          <p
+            style={{
+              fontFamily: "'Nunito', sans-serif",
+              fontSize: '12px',
+              color: '#bbb',
+              textAlign: 'center',
+              marginTop: '20px',
+            }}
+          >
+            Don't have an account?{' '}
+            <span
+              onClick={() => navigate('/register')}
+              style={{ color: '#FF2D2D', fontWeight: 700, cursor: 'pointer' }}
+            >
+              Sign Up
+            </span>
+          </p>
+        </div>
+        {/* ── END FORM CARD ── */}
+
       </div>
 
-      {/* Bottom Brand Strip */}
-      <div className="w-full bg-doki-red h-4 md:h-6 border-t-2 border-black mt-auto z-50" />
+      <div className="h-1.5 w-full bg-doki-red" />
     </div>
   );
 };

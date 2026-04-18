@@ -1,15 +1,34 @@
+/* src/index.css */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  @apply bg-white text-doki-black font-sans;
+  @apply bg-white text-doki-black;
+  font-family: 'Nunito', sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Custom Scrollbar for the 'Doki' look */
+/* Thin scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 4px;
+  height: 4px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #9e969691;
+  background: rgba(0,0,0,0.15);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Hide scrollbar for horizontal scroll sections */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

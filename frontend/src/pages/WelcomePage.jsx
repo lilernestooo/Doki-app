@@ -1,54 +1,157 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import DokiHero from '../assets/DokiImg-removebg.png'; 
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import DokiHero from '../assets/DokiImg-removebg.png';
 
 const WelcomePage = () => {
-  const navigate = useNavigate();
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoaded(true), 100);
+    return () => clearTimeout(t);
+  }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-white overflow-x-hidden font-sans">
-      {/* Top Accent Bar */}
-      <div className="h-2 md:h-4 bg-doki-red w-full" />
-      
-      <div className="flex flex-col items-center justify-center flex-grow px-6 py-12 md:px-10 text-center relative gap-8 md:gap-12">
-        
-        {/* Auth Navigation */}
-        <div className="absolute top-6 right-6 md:top-8 md:right-10 flex space-x-4 text-[13px] md:text-[11px] font-black text-doki-red animate-fadeIn">
-          <span onClick={() => navigate('/register')} className="hover:underline cursor-pointer">SIGNUP</span>
-          <span className="text-black">|</span>
-          <span onClick={() => navigate('/login')} className="hover:underline cursor-pointer">LOGIN</span>
+    <div
+      className="min-h-screen flex flex-col bg-white overflow-hidden relative"
+      style={{ fontFamily: "'Nunito', sans-serif" }}
+    >
+      {/* Top red bar */}
+      <div className="h-1.5 w-full bg-doki-red flex-shrink-0" />
+
+      {/* Auth links — NO opacity animation, always visible and clickable */}
+      <div
+        className="flex items-center gap-2"
+        style={{
+          position: 'absolute',
+          top: '16px',
+          right: '20px',
+          zIndex: 9999,
+        }}
+      >
+        <Link
+          to="/register"
+          style={{
+            fontFamily: "'Bebas Neue', 'Impact', sans-serif",
+            letterSpacing: '0.15em',
+            fontSize: '13px',
+            color: '#FF2D2D',
+            textDecoration: 'none',
+          }}
+        >
+          SIGN UP
+        </Link>
+        <span style={{ color: '#ccc', fontSize: '12px' }}>|</span>
+        <Link
+          to="/login"
+          style={{
+            fontFamily: "'Bebas Neue', 'Impact', sans-serif",
+            letterSpacing: '0.15em',
+            fontSize: '13px',
+            color: '#FF2D2D',
+            textDecoration: 'none',
+          }}
+        >
+          LOG IN
+        </Link>
+      </div>
+
+      {/* Main content */}
+      <div className="flex flex-col items-center justify-center flex-grow px-6 py-10 relative z-10">
+
+        {/* Welcome To text */}
+        <div
+          style={{
+            opacity: loaded ? 1 : 0,
+            transform: loaded ? 'translateY(0)' : 'translateY(20px)',
+            transition: 'opacity 0.7s ease, transform 0.7s ease',
+          }}
+          className="text-center mb-1"
+        >
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <div style={{ height: '1px', width: '28px', background: '#e0e0e0' }} />
+            <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#ddd' }} />
+            <div style={{ height: '1px', width: '28px', background: '#e0e0e0' }} />
+          </div>
+          <p
+            style={{
+              fontFamily: "'Nunito', sans-serif",
+              fontSize: '12px',
+              letterSpacing: '0.5em',
+              color: '#aaa',
+              textTransform: 'uppercase',
+              fontWeight: 600,
+            }}
+          >
+            WELCOME TO
+          </p>
         </div>
 
-        {/* Branding - Scaled up for Mobile */}
-        <div className="flex flex-col items-center animate-fadeIn">
-          <h1 className="text-5xl sm:text-4xl md:text-5xl font-light tracking-[0.3em] text-black leading-tight">
-            WELCOME
-          </h1>
-          <h2 className="text-xl sm:text-lg md:text-xl font-bold text-black tracking-[0.2em] mt-2">
-            TO
-          </h2>
-        </div>
-        
-        {/* Hero Image - Oversized for Mobile Impact */}
-        <div className="
-          w-[115%] max-w-[115%] ml-[-7.5%]   /* Makes image wider than the screen on mobile */
-          sm:w-full sm:max-w-xl sm:ml-0      /* Resets to standard width on tablets/desktop */
-          opacity-0 animate-fadeInDelayed
-          transition-all duration-500
-        ">
-          <img 
-            src={DokiHero} 
-            alt="Doki Coffee Hero" 
-            className="w-full h-auto object-contain drop-shadow-2xl transform hover:scale-105 transition-transform" 
+        {/* Hero image */}
+        <div
+          style={{
+            opacity: loaded ? 1 : 0,
+            transform: loaded ? 'translateY(0) scale(1)' : 'translateY(28px) scale(0.96)',
+            transition: 'opacity 1s ease 0.2s, transform 1s ease 0.2s',
+            width: '100%',
+            maxWidth: '380px',
+            position: 'relative',
+          }}
+        >
+          <img
+            src={DokiHero}
+            alt="Doki Coffee"
+            className="w-full h-auto object-contain"
+            style={{ maxHeight: '50vh' }}
           />
         </div>
 
-        {/* Vertical Spacer for Mobile Breathing Room */}
-        <div className="h-2 md:hidden" />
+        {/* Bottom tagline */}
+        <div
+          style={{
+            opacity: loaded ? 1 : 0,
+            transform: loaded ? 'translateY(0)' : 'translateY(12px)',
+            transition: 'opacity 0.7s ease 0.6s, transform 0.7s ease 0.6s',
+          }}
+          className="flex flex-col items-center gap-1.5 mt-2"
+        >
+          <div className="flex items-center gap-2">
+            <div style={{ height: '1px', width: '36px', background: 'rgba(255,45,45,0.3)' }} />
+            <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#FF2D2D' }} />
+            <p
+              style={{
+                fontFamily: "'Nunito', sans-serif",
+                fontSize: '9px',
+                letterSpacing: '0.45em',
+                color: '#bbb',
+                textTransform: 'uppercase',
+                fontWeight: 700,
+              }}
+            >
+              CAFE
+            </p>
+            <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#FF2D2D' }} />
+            <div style={{ height: '1px', width: '36px', background: 'rgba(255,45,45,0.3)' }} />
+          </div>
+
+          <p
+            style={{
+              fontFamily: "'Nunito', sans-serif",
+              fontSize: '9px',
+              color: '#ccc',
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              fontWeight: 600,
+            }}
+          >
+            EVERY SIP TELLS A STORY
+          </p>
+        </div>
+
       </div>
 
-      {/* Bottom Accent Bar */}
-      <div className="h-2 md:h-4 bg-doki-red w-full" />
+      {/* Bottom bar */}
+      <div className="h-1.5 w-full bg-doki-red flex-shrink-0" />
+
     </div>
   );
 };
