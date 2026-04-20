@@ -12,6 +12,23 @@ import dirtyMatchaImg  from '../assets/Dirty-matcha.jpg';
 import koichaImg       from '../assets/Koicha.jpg';
 import uusuchaImg      from '../assets/Usucha.jpg';
 
+import flashBrewImg   from '../assets/Flash-brew.jpg';
+import sakuraImg      from '../assets/Sakura.jpg';
+import affogatoImg    from '../assets/Affogto.jpg';
+import siphonImg      from '../assets/siphon.jpeg';
+import hojichaImg     from '../assets/Hojicha.jpg';
+import coffeeJellyImg from '../assets/coffee-jelly.jpg';
+
+import  genmaichaImg   from '../assets/genmaicha.jpg';
+import yuzuImg   from '../assets/Yuzu.jpg';
+import ichigoImg   from '../assets/ichigo.jpg';
+
+import anpanImg        from '../assets/Anpan.jpg';
+import strawberryImg  from '../assets/strawberry.jpg';
+import cheesecakeImg  from '../assets/cheesecake.jpg';
+import melonImg       from '../assets/Melon-Pan.jpg';
+import kareImg      from '../assets/Kare-pan.jpg';
+
 import '../styles/ProductsPage.css';
 
 /* ─────────────────────────────────────────
@@ -41,9 +58,6 @@ const TeaIcon = () => (
   </svg>
 );
 
-/* ─────────────────────────────────────────
-   Data
-───────────────────────────────────────── */
 
 const BEST_SELLERS = [
   { id: 101, name: 'Matcha Latte',        price: 170, tag: '🔥', image: matchaLatteImg },
@@ -53,25 +67,27 @@ const BEST_SELLERS = [
 ];
 
 const ALL_PRODUCTS = {
-  COFFEE: [
-    { id: 1,  name: 'Japanese Iced Coffee (Flash Brew) ',  price: 150, tag: 'BOLD',         image: dokiImg },
-    { id: 2,  name: 'Sakura Latte',   price: 200, tag: 'TRENDING',     image: dokiImg },
-    { id: 3,  name: 'Affogato',   price: 180, tag: 'FAN FAVORITE', image: dokiImg },
-    { id: 4,  name: 'Siphon Coffee',     price: 230, tag: 'CLASSIC',      image: dokiImg },
-    { id: 5,  name: 'Hojicha Latte ',  price: 160,                      image: dokiImg },
-    { id: 6,  name: 'Coffee Jelly Latte',      price: 180,                      image: dokiImg },
-  ],
+COFFEE: [
+  { id: 1, name: 'Japanese Iced Coffee (Flash Brew)', price: 150, tag: 'BOLD',         image: flashBrewImg   },
+  { id: 2, name: 'Sakura Latte',                      price: 200, tag: 'TRENDING',     image: sakuraImg      },
+  { id: 3, name: 'Affogato',                          price: 180, tag: 'FAN FAVORITE', image: affogatoImg    },
+  { id: 4, name: 'Siphon Coffee',                     price: 230, tag: 'CLASSIC',      image: siphonImg      },
+  { id: 5, name: 'Hojicha Latte',                     price: 160,                      image: hojichaImg     },
+  { id: 6, name: 'Coffee Jelly Latte',                price: 180,                      image: coffeeJellyImg },
+],
   'NON-COFFEE': [
-    { id: 7,  name: 'Matcha Latte',    price: 170, image: dokiImg },
-    { id: 8,  name: 'Genmaicha Latte', price: 180, image: dokiImg },
-    { id: 9,  name: 'Yuzu Tea',     price: 170, image: dokiImg },
-    { id: 10, name: 'Strawberry Milk (Ichigo Milk)',   price: 150, image: dokiImg },
+    { id: 7,  name: 'Matcha Latte',    price: 170, image: matchaLatteImg },
+    { id: 8,  name: 'Genmaicha Latte', price: 180, image: genmaichaImg   },
+    { id: 9,  name: 'Yuzu Tea 🍋',                      price: 170, image: yuzuImg   },
+    { id: 10, name: 'Strawberry Milk (Ichigo Milk) 🍓',  price: 150, image: ichigoImg },
   ],
-  PASTRIES: [
-    { id: 11, name: 'Croissant',     price: 100, image: dokiImg },
-    { id: 12, name: 'Cheese Roll',   price: 90, image: dokiImg },
-    { id: 13, name: 'Butter Cookie', price: 60, image: dokiImg },
-  ],
+PASTRIES: [
+  { id: 11, name: 'Anpan',                price:  80, tag: '🍞', image: anpanImg      },
+  { id: 12, name: 'Strawberry Shortcake', price: 180, tag: '🍓', image: strawberryImg },
+  { id: 13, name: 'Japanese Cheesecake',  price: 130, tag: '🧀', image: cheesecakeImg },
+  { id: 14, name: 'Melon Pan',            price:  90, tag: '🍈', image: melonImg      },
+  { id: 15, name: 'Kare Pan',             price: 110, tag: '🍛', image: kareImg       },
+],
 };
 
 const SECTION_META = {

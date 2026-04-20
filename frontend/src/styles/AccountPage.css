@@ -1,0 +1,12 @@
+/* AccountPage.css — Doki Café Customer Registration */
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;700;800&display=swap');
+
+/* All styles are now inline in AccountPage.jsx.
+   This file just ensures the Google Fonts are loaded. */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
