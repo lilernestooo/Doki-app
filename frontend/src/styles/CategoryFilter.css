@@ -1,0 +1,43 @@
+/* ─────────────────────────────────────────
+   CategoryFilter.css
+   src/styles/CategoryFilter.css
+───────────────────────────────────────── */
+
+.cat-filter {
+  display: flex;
+  gap: 0;
+  padding: 0 14px;
+  background: #ffffff;
+  border-top: 0.5px solid rgba(0, 0, 0, 0.09);
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.09);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.cat-filter::-webkit-scrollbar {
+  display: none;
+}
+
+.cat-filter__btn {
+  font-family: 'Bebas Neue', 'Impact', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  white-space: nowrap;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  padding: 9px 10px 7px;
+  color: #aaaaaa;
+  transition: color 0.18s ease, border-color 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cat-filter__btn:hover {
+  color: #666;
+}
+
+.cat-filter__btn--active {
+  color: #E32636;
+  border-bottom-color: #E32636;
+}

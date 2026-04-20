@@ -1,0 +1,61 @@
+/* ─────────────────────────────────────────
+   BestSellers.css
+   src/styles/BestSellers.css
+───────────────────────────────────────── */
+
+.best-sellers {
+  width: 100%;
+}
+
+.best-sellers__header {
+  background: #1a1a1a;
+  padding: 7px 14px;
+  border-bottom: 1px solid #000;
+  text-align: center;
+}
+
+.best-sellers__label {
+  font-family: 'Bebas Neue', 'Impact', monospace;
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  color: #ffffff;
+  font-style: italic;
+}
+
+.best-sellers__scroll {
+  display: flex;
+  gap: 10px;
+  padding: 12px 14px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  background: #f5f5f5;
+}
+
+.best-sellers__scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Dot indicator row ── */
+.best-sellers__dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 4px 0 8px;
+  background: #f5f5f5;
+}
+
+.best-sellers__dot {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #cccccc;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.best-sellers__dot--on {
+  background: #E32636;
+  transform: scale(1.25);
+}

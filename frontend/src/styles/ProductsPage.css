@@ -1,0 +1,32 @@
+/* ─────────────────────────────────────────
+   ProductsPage.css
+   src/styles/ProductsPage.css
+
+   Page-level shell only. Component styles
+   live in their own CSS files.
+───────────────────────────────────────── */
+
+.products-page {
+  width: 100%;
+  min-height: calc(100vh - 56px); /* subtract Navbar height */
+  background: #f5f5f5;
+  font-family: 'Nunito', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Dark label bar above bento grid */
+.products-page__section-bar {
+  background: #1a1a1a;
+  padding: 7px 14px;
+  border-bottom: 1px solid #000;
+  text-align: center;
+}
+
+.products-page__section-label {
+  font-family: 'Bebas Neue', 'Impact', monospace;
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  color: #ffffff;
+  font-style: italic;
+}
