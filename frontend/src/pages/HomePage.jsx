@@ -4,6 +4,10 @@ import '../styles/HomePage.css';
 
 // ✅ FIX: Proper Vite image import (Vercel-safe)
 import cafeImage from '../assets/cafe-image.png';
+import dirtyMatchaImg from '../assets/Dirty-matcha.jpg';
+import koichaImg from '../assets/Koicha.jpg';
+import matchaLatteImg from '../assets/Matcha-Latte.jpg';
+import usuchaImg from '../assets/Usucha.jpg';
 
 // ── SVG Icons ──────────────────────────────────────────────────────────────
 const CoffeeIcon = ({ size = 28, color = '#cccccc' }) => (
@@ -62,11 +66,11 @@ const LanternIcon = ({ size = 20, color = '#E32636' }) => (
   </svg>
 );
 
-// ── Data ───────────────────────────────────────────────────────────────────
 const bestSellers = [
-  { id: 1, name: 'Coffee Jelly', price: 150, tag: 'FAN FAVORITE', Icon: StarIcon },
-  { id: 2, name: 'Dirty Matcha', price: 145, tag: 'TRENDING', Icon: LeafIcon },
-  { id: 3, name: 'Café Latte', price: 130, tag: 'CLASSIC', Icon: CoffeeIcon },
+  { id: 1, name: 'Dirty Matcha', price: 145, tag: '🔥', img: dirtyMatchaImg },
+  { id: 2, name: 'Koicha', price: 160, tag: '🔥', img: koichaImg },
+  { id: 3, name: 'Matcha Latte', price: 130, tag: '🔥', img: matchaLatteImg },
+  { id: 4, name: 'Usucha', price: 140, tag: '🔥', img: usuchaImg },
 ];
 
 const features = [
@@ -150,21 +154,18 @@ const HomePage = () => {
         </div>
 
         <div className="hp-cards">
-          {bestSellers.map(({ id, name, price, tag, Icon }) => (
-            <Link to={`/product/${id}`} key={id} className="hp-card">
-              <div className="hp-card-img">
-                <div className="hp-card-icon-wrap">
-                  <Icon size={48} color="#cccccc" />
-                </div>
-                <div className="hp-card-tag">{tag}</div>
-              </div>
-
-              <div className="hp-card-info">
-                <p className="hp-card-name">{name}</p>
-                <p className="hp-card-price">₱{price}</p>
-              </div>
-            </Link>
-          ))}
+        {bestSellers.map(({ id, name, price, tag, img }) => (
+          <Link to={`/product/${id}`} key={id} className="hp-card">
+            <div className="hp-card-img">
+              <img src={img} alt={name} className="hp-card-photo" />
+              <div className="hp-card-tag">{tag}</div>
+            </div>
+            <div className="hp-card-info">
+              <p className="hp-card-name">{name}</p>
+              <p className="hp-card-price">₱{price}</p>
+            </div>
+          </Link>
+        ))}
         </div>
 
         <div className="hp-see-all-wrap">
