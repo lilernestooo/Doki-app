@@ -41,11 +41,12 @@ const LoginPage = () => {
   };
 
   const handleLogin = () => {
-    setTouched({ username: true, password: true });
-    if (validate()) {
-      navigate('/home');
-    }
-  };
+  setTouched({ username: true, password: true });
+  if (validate()) {
+    localStorage.setItem('username', username); // ✅ save username
+    navigate('/home');
+  }
+};
 
   // ── Eye Icons ───────────────────────────────────────
   const EyeIcon = () => (
