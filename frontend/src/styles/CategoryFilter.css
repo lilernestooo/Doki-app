@@ -5,15 +5,21 @@
 
 .cat-filter {
   display: flex;
-  gap: 0;
-  padding: 0 14px;
+  justify-content: center;        /* ✅ center the group */
+  align-items: center;
+  flex-wrap: wrap;                /* ✅ allows spreading instead of forcing scroll */
+  gap: 10px;                      /* spacing between buttons */
+  padding: 10px 14px;
   background: #ffffff;
   border-top: 0.5px solid rgba(0, 0, 0, 0.09);
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.09);
-  overflow-x: auto;
+
+  /* ❌ remove scrolling behavior */
+  overflow-x: visible;
   scrollbar-width: none;
 }
 
+/* optional safety: if still needed for webkit */
 .cat-filter::-webkit-scrollbar {
   display: none;
 }
@@ -23,12 +29,15 @@
   font-size: 10.5px;
   letter-spacing: 0.16em;
   white-space: nowrap;
+
   background: none;
   border: none;
   border-bottom: 2px solid transparent;
   cursor: pointer;
-  padding: 9px 10px 7px;
+
+  padding: 9px 12px 7px;
   color: #aaaaaa;
+
   transition: color 0.18s ease, border-color 0.18s ease;
   -webkit-tap-highlight-color: transparent;
 }

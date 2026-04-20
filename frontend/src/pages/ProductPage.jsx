@@ -107,26 +107,30 @@ const ProductPage = () => {
   return (
     <div className="products-page">
 
-      {/* ── Best seller horizontal strip ── */}
-      <BestSellers items={BEST_SELLERS} />
+      {/* ✅ CENTER CONTAINER */}
+      <div className="products-page__container">
 
-      {/* ── Category tabs ── */}
-      <CategoryFilter
-        categories={CATEGORIES}
-        active={activeCategory}
-        onChange={setActiveCategory}
-      />
+        {/* ── Best seller horizontal strip ── */}
+        <BestSellers items={BEST_SELLERS} />
 
-      {/* ── Section header bar ── */}
-      <div className="products-page__section-bar">
-        <span className="products-page__section-label">
-          {activeCategory === 'ALL' ? 'FULL MENU' : activeCategory}
-        </span>
+        {/* ── Category tabs ── */}
+        <CategoryFilter
+          categories={CATEGORIES}
+          active={activeCategory}
+          onChange={setActiveCategory}
+        />
+
+        {/* ── Section header bar ── */}
+        <div className="products-page__section-bar">
+          <span className="products-page__section-label">
+            {activeCategory === 'ALL' ? 'FULL MENU' : activeCategory}
+          </span>
+        </div>
+
+        {/* ── Bento product grid ── */}
+        <BentoGrid items={visibleProducts} />
+
       </div>
-
-      {/* ── Bento product grid ── */}
-      <BentoGrid items={visibleProducts} />
-
     </div>
   );
 };

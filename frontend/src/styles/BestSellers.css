@@ -1,61 +1,71 @@
-/* ─────────────────────────────────────────
-   BestSellers.css
-   src/styles/BestSellers.css
-───────────────────────────────────────── */
+/* src/styles/BestSellers.css */
 
 .best-sellers {
   width: 100%;
+  background: #f5f5f5;
 }
 
+/* ── Header ── */
 .best-sellers__header {
   background: #1a1a1a;
-  padding: 7px 14px;
+  padding: 10px 14px;
   border-bottom: 1px solid #000;
   text-align: center;
 }
 
 .best-sellers__label {
   font-family: 'Bebas Neue', 'Impact', monospace;
-  font-size: 10px;
-  letter-spacing: 0.32em;
+  font-size: 14px;
+  letter-spacing: 0.35em;
   color: #ffffff;
   font-style: italic;
+  text-transform: uppercase;
 }
 
+/* ── Container ── */
 .best-sellers__scroll {
   display: flex;
-  gap: 10px;
-  padding: 12px 14px;
+  gap: 12px;
+  padding: 24px 16px;
+  
+  /* Standard overflow for mobile/smaller screens */
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  background: #f5f5f5;
+  -webkit-overflow-scrolling: touch;
+
+  /* This ensures the cards stay on the same line 
+     and allows them to stretch to fill the width */
+  justify-content: space-between; 
+  align-items: stretch;
 }
 
 .best-sellers__scroll::-webkit-scrollbar {
   display: none;
 }
 
-/* ── Dot indicator row ── */
-.best-sellers__dots {
+/* ── Card Filling Logic ── */
+.best-sellers__scroll > * {
+  /* This is the magic line: 
+     1 (grow) - allows it to expand to cover empty space 
+     1 (shrink) - allows it to get smaller on mobile
+     0px (basis) - ignores the content width to calculate even distribution */
+  flex: 1 1 0px; 
+  
+  /* Set a minimum width so cards don't become too skinny on mobile */
+  min-width: 160px;
+  
+  /* Set a maximum width so they don't look weird on ultra-wide screens */
+  max-width: 350px;
+
   display: flex;
-  justify-content: center;
-  gap: 6px;
-  padding: 4px 0 8px;
-  background: #f5f5f5;
 }
 
-.best-sellers__dot {
-  display: block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #cccccc;
-  transition: background 0.2s ease, transform 0.2s ease;
-}
-
-.best-sellers__dot--on {
-  background: #E32636;
-  transform: scale(1.25);
+/* ── Desktop Refinement ── */
+@media (min-width: 1024px) {
+  .best-sellers__scroll {
+    gap: 20px;
+    padding: 30px 40px;
+    /* Centers the entire row if cards hit their max-width */
+    justify-content: center; 
+  }
 }

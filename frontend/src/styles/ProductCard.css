@@ -135,7 +135,7 @@
 
 .product-card--wide .product-card__img-wrap {
   width: 90px;
-  height: 72px;
+  height: 80px;
   aspect-ratio: unset;
   flex-shrink: 0;
 }
@@ -165,7 +165,7 @@
 }
 
 .product-card--best-seller .product-card__img-wrap {
-  height: 86px;
+  height: 180px;
   aspect-ratio: unset;
 }
 
