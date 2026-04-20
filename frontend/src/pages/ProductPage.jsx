@@ -16,10 +16,10 @@ import '../styles/ProductsPage.css';
 ───────────────────────────────────────── */
 
 const BEST_SELLERS = [
-  { id: 1, name: 'Coffee Jelly',  price: 150, tag: 'FAN FAVORITE', image: dokiImg },
-  { id: 2, name: 'Dirty Matcha',  price: 145, tag: 'TRENDING',     image: dokiImg },
-  { id: 3, name: 'Café Latte',    price: 130, tag: 'CLASSIC',      image: dokiImg },
-  { id: 4, name: 'Espresso Shot', price: 100, tag: 'BOLD',         image: dokiImg },
+  { id: 1, name: 'Coffee Jelly',  price: 150, tag: 'HOT', image: dokiImg },
+  { id: 2, name: 'Dirty Matcha',  price: 145, tag: 'HOT',     image: dokiImg },
+  { id: 3, name: 'Café Latte',    price: 130, tag: 'HOT',      image: dokiImg },
+  { id: 4, name: 'Espresso Shot', price: 100, tag: 'HOT',         image: dokiImg },
 ];
 
 const ALL_PRODUCTS = {
