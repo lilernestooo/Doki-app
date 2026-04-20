@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import EditIcon from '@mui/icons-material/Edit';
 import SearchBar from './SearchBar';
 import '../styles/Navbar.css';
 import logo from '../assets/logo (3).png';
@@ -69,6 +70,12 @@ const Navbar = () => {
     navigate('/login');
   };
 
+  // ✅ NEW: handle edit profile
+  const handleEditProfile = () => {
+    setDropdownOpen(false);
+    navigate('/account'); // redirects to AccountPage.jsx
+  };
+
   return (
     <nav className="nb-nav">
       <div className="nb-topbar" />
@@ -96,7 +103,17 @@ const Navbar = () => {
                   <span className="nb-dropdown-name">{username}</span>
                 </div>
               </div>
+
               <div className="nb-dropdown-divider" />
+
+              <button
+                className="nb-dropdown-edit"
+                onClick={handleEditProfile}
+              >
+                <EditIcon fontSize="small" />
+                Edit Profile
+              </button>
+
               <button className="nb-dropdown-logout" onClick={handleLogout}>
                 <span className="nb-dropdown-logout-icon">⏻</span>
                 Logout

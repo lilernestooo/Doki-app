@@ -56,7 +56,7 @@ const WelcomePage = () => {
       </div>
 
       {/* Main content */}
-      <div className="flex flex-col items-center justify-center flex-grow px-6 py-10 relative z-10">
+      <div className="flex flex-col items-center justify-center flex-grow px-6 py-4 relative z-10 overflow-hidden">
 
         {/* Welcome To text */}
         <div
@@ -101,8 +101,7 @@ const WelcomePage = () => {
             src={DokiHero}
             alt="Doki Coffee"
             className="w-full h-auto object-contain"
-            style={{ maxHeight: '50vh' }}
-          />
+            style={{ maxHeight: '42vh' }}          />
         </div>
 
         {/* Bottom tagline */}
