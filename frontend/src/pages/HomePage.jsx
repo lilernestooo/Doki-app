@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/HomePage.css';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 // ✅ FIX: Proper Vite image import (Vercel-safe)
 import cafeImage from '../assets/cafe-image.png';
@@ -66,6 +67,30 @@ const LanternIcon = ({ size = 20, color = '#E32636' }) => (
   </svg>
 );
 
+// ── Coming Soon Coffee Icon ─────────────────────────────────────────────────
+const ComingSoonCoffeeIcon = ({ size = 48, color = '#E32636' }) => (
+  <svg width={size} height={size} viewBox="0 0 64 64" fill="none"
+    stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M22 10 Q24 6 22 2" strokeWidth="1.4" opacity="0.5"/>
+    <path d="M30 8 Q32 4 30 0" strokeWidth="1.4" opacity="0.5"/>
+    <path d="M38 10 Q40 6 38 2" strokeWidth="1.4" opacity="0.5"/>
+    <path d="M14 18 h36 l-4 26 a4 4 0 0 1-4 4 H22 a4 4 0 0 1-4-4 Z"/>
+    <path d="M50 24 h4 a6 6 0 0 1 0 12 h-4"/>
+    <ellipse cx="32" cy="50" rx="20" ry="3"/>
+    <text x="32" y="38" textAnchor="middle" fontSize="14" fontFamily="serif"
+      fill={color} stroke="none" opacity="0.7">?</text>
+  </svg>
+);
+
+// ── Helpers ────────────────────────────────────────────────────────────────
+const getGreeting = () => {
+  const hour = new Date().getHours();
+  if (hour >= 5 && hour < 12)  return { text: 'Good morning',  emoji: '☀️',  sub: 'Start your day with something warm ✨' };
+  if (hour >= 12 && hour < 17) return { text: 'Good afternoon', emoji: '🌤️', sub: 'The perfect time for a matcha break 🍵' };
+  if (hour >= 17 && hour < 21) return { text: 'Good evening',  emoji: '🌙', sub: 'Craving something sweet tonight? 🍫' };
+  return { text: 'Hey there',  emoji: '🌸', sub: 'Night owl? We see you. Treat yourself 💫' };
+};
+
 const bestSellers = [
   { id: 1, name: 'Dirty Matcha', price: 145, tag: '🔥', img: dirtyMatchaImg },
   { id: 2, name: 'Koicha', price: 160, tag: '🔥', img: koichaImg },
@@ -93,12 +118,40 @@ const features = [
 
 // ── Component ──────────────────────────────────────────────────────────────
 const HomePage = () => {
+  const userName = localStorage.getItem('username') || 'Guest';
+  const [showGreeting, setShowGreeting] = useState(false);
+  const [greetingDismissed, setGreetingDismissed] = useState(false);
+  const greeting = getGreeting();
+
   useEffect(() => {
     window.scrollTo(0, 0);
+    const timer = setTimeout(() => setShowGreeting(true), 600);
+    return () => clearTimeout(timer);
   }, []);
+
+  const handleDismiss = () => {
+    setShowGreeting(false);
+    setTimeout(() => setGreetingDismissed(true), 400);
+  };
 
   return (
     <div className="hp-page">
+
+      {/* ── DYNAMIC GREETING TOAST ────────────────────── */}
+      {!greetingDismissed && (
+        <div className={`hp-greeting-toast ${showGreeting ? 'hp-greeting-visible' : ''}`}>
+          <div className="hp-greeting-left">
+            <span className="hp-greeting-emoji">{greeting.emoji}</span>
+            <div className="hp-greeting-texts">
+              <p className="hp-greeting-main">
+                {greeting.text}, <span className="hp-greeting-name">{userName}</span>
+              </p>
+              <p className="hp-greeting-sub">{greeting.sub}</p>
+            </div>
+          </div>
+          <button className="hp-greeting-close" onClick={handleDismiss} aria-label="Dismiss">✕</button>
+        </div>
+      )}
 
       {/* ── HERO ─────────────────────────────────────────── */}
       <section className="hp-hero">
@@ -116,11 +169,32 @@ const HomePage = () => {
           <p className="hp-hero-sub">
             3D Animal Foam Lattes · Specialty Coffee · Japanese-Inspired Drinks
           </p>
+          {/* ── HERO TAGLINE (replaces the two buttons) ── */}
+          <p className="hp-hero-tagline">
+            Handcrafted with love in the heart of Angeles City — where every cup is a little work of art.
+          </p>
+        </div>
 
-          <div className="hp-hero-btns">
-            <Link to="/products" className="hp-btn-primary">ORDER NOW</Link>
-            <Link to="/aboutus" className="hp-btn-ghost">OUR STORY</Link>
+        {/* ── FLOATING STATS CARD (fills the bottom gap) ── */}
+        <div className="hp-hero-stats-card">
+          <div className="hp-stat">
+            <span className="hp-stat-num">20+</span>
+            <span className="hp-stat-label">Menu Items</span>
           </div>
+          <div className="hp-stat-divider" />
+          <div className="hp-stat">
+            <span className="hp-stat-num">3D</span>
+            <span className="hp-stat-label">Foam Art</span>
+          </div>
+          <div className="hp-stat-divider" />
+          <div className="hp-stat">
+            <span className="hp-stat-num">9AM</span>
+            <span className="hp-stat-label">Opens Daily</span>
+          </div>
+          <div className="hp-stat-divider" />
+          <Link to="/products" className="hp-stat hp-stat-order">
+        <AddShoppingCartIcon className="hp-stat-order-icon" fontSize="small" />
+          </Link>
         </div>
       </section>
 
@@ -154,18 +228,34 @@ const HomePage = () => {
         </div>
 
         <div className="hp-cards">
-        {bestSellers.map(({ id, name, price, tag, img }) => (
-          <Link to={`/product/${id}`} key={id} className="hp-card">
-            <div className="hp-card-img">
-              <img src={img} alt={name} className="hp-card-photo" />
-              <div className="hp-card-tag">{tag}</div>
+          {bestSellers.map(({ id, name, price, tag, img }) => (
+            <Link to={`/product/${id}`} key={id} className="hp-card">
+              <div className="hp-card-img">
+                <img src={img} alt={name} className="hp-card-photo" />
+                <div className="hp-card-tag">{tag}</div>
+              </div>
+              <div className="hp-card-info">
+                <p className="hp-card-name">{name}</p>
+                <p className="hp-card-price">₱{price}</p>
+              </div>
+            </Link>
+          ))}
+
+          {/* ── COMING SOON CARD ── */}
+          <div className="hp-card hp-card-coming-soon">
+            <div className="hp-card-img hp-coming-soon-img">
+              <div className="hp-coming-soon-inner">
+                <div className="hp-coming-soon-icon-wrap">
+                  <ComingSoonCoffeeIcon size={44} color="#E32636" />
+                </div>
+                <div className="hp-coming-soon-ripple" />
+              </div>
             </div>
             <div className="hp-card-info">
-              <p className="hp-card-name">{name}</p>
-              <p className="hp-card-price">₱{price}</p>
+              <p className="hp-card-name">New Brew</p>
+              <p className="hp-coming-soon-label">COMING SOON</p>
             </div>
-          </Link>
-        ))}
+          </div>
         </div>
 
         <div className="hp-see-all-wrap">
